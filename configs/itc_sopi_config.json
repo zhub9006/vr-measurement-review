@@ -1,0 +1,88 @@
+{
+  "instrument": "ITC Sense of Presence Inventory (ITC-SOPI)",
+  "version": "1.0",
+  "citation": "Lessiter, J., Freeman, J., Keogh, E., & Davidoff, J. (2001). A cross-media presence questionnaire: The ITC-Sense of Presence Inventory. Presence: Teleoperators and Virtual Environments, 10(3), 282-297.",
+  "intended_use": "Cross-media (VR, television, cinema, desktop displays); designed to be media-agnostic",
+  "total_items": 44,
+  "response_scale": {
+    "type": "Likert",
+    "points": 5,
+    "anchors": {
+      "1": "strongly disagree",
+      "5": "strongly agree"
+    }
+  },
+  "subscales": {
+    "sense_of_physical_space": {
+      "label": "Sense of Physical Space (SPS)",
+      "item_count": 13,
+      "description": "The degree to which participants feel physically present within the mediated environment — spatial awareness, sense of being located in the virtual world.",
+      "example_items": [
+        "I had a strong sense of being in the environment shown.",
+        "I felt I was visiting the places shown in the presentation.",
+        "I felt I could reach out and touch things in the presentation.",
+        "I felt my body was 'in' the environment shown.",
+        "The sense of 'being there' was strong."
+      ],
+      "scoring": "Mean of all SPS items (higher = more physical presence)"
+    },
+    "engagement": {
+      "label": "Engagement (ENG)",
+      "item_count": 11,
+      "description": "The degree to which participants experienced involvement, enjoyment, and found the experience interesting and compelling.",
+      "example_items": [
+        "I was interested in what was going on in the presentation.",
+        "I found the experience enjoyable.",
+        "I was involved in the presentation.",
+        "The experience was intense.",
+        "I enjoyed myself."
+      ],
+      "scoring": "Mean of all ENG items"
+    },
+    "naturalness": {
+      "label": "Naturalness (NAT)",
+      "item_count": 11,
+      "description": "The degree to which the experience felt natural, coherent, and consistent with real-world expectations — ecological validity of the virtual environment.",
+      "example_items": [
+        "The way things moved in the presentation was consistent with how I would expect them to move in real life.",
+        "The environment seemed natural.",
+        "The objects in the presentation looked like real objects.",
+        "The sounds seemed to come from the right places."
+      ],
+      "scoring": "Mean of all NAT items"
+    },
+    "negative_effects": {
+      "label": "Negative Effects (NE)",
+      "item_count": 9,
+      "description": "The degree to which participants experienced discomfort, disorientation, nausea, or other negative symptoms — analogous to simulator/cybersickness.",
+      "example_items": [
+        "I felt dizzy.",
+        "I felt nauseous.",
+        "I felt disorientated.",
+        "My eyes felt strained.",
+        "I felt uncomfortable."
+      ],
+      "scoring": "Mean of all NE items; higher scores indicate MORE negative effects (reverse interpretation)",
+      "note": "This subscale is unique to ITC-SOPI among canonical presence scales; captures adverse reactions"
+    }
+  },
+  "scoring_instructions": {
+    "method": "Compute mean score per subscale",
+    "reverse_score_procedure": "Some items within subscales are reverse-keyed; consult original scoring key",
+    "total_score": "No single total score recommended; four subscale scores reported independently",
+    "interpretation": "Higher SPS/ENG/NAT = more presence/engagement/naturalness; higher NE = more adverse effects"
+  },
+  "psychometric_properties": {
+    "internal_consistency": "Cronbach alpha: SPS=0.90, ENG=0.87, NAT=0.82, NE=0.88 (original study)",
+    "factor_structure": "4-factor solution from factor analysis of 44-item pool",
+    "test_retest_reliability": "Acceptable across media conditions",
+    "validity": "Validated across TV, cinema, and VR conditions in original study"
+  },
+  "key_differentiators": [
+    "Only canonical presence scale with a dedicated Negative Effects subscale",
+    "Designed for cross-media use — not VR-specific",
+    "Does NOT include items about specific system hardware or interface quality",
+    "Widely used in ISPR conference community (most popular there per Rosakranse & Oh, 2014)"
+  ],
+  "theoretical_grounding": "Lessiter et al. factor analysis; influenced by IJsselsteijn et al. (2000) presence determinants model"
+}

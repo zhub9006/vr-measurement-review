@@ -1,0 +1,78 @@
+{
+  "instrument": "Slater-Usoh-Steed (SUS) Presence Questionnaire",
+  "version": "standard_6item",
+  "citation": "Usoh, M., Catena, E., Arman, S., & Slater, M. (2000). Using presence questionnaires in reality. Presence: Teleoperators and Virtual Environments, 9(5), 497-503.",
+  "original_reference": "Slater, M., Usoh, M., & Steed, A. (1994). Depth of presence in virtual environments. Presence, 3(2), 130-144.",
+  "intended_use": "Immersive virtual environments; designed for VR-specific spatial presence measurement",
+  "total_items": 6,
+  "response_scale": {
+    "type": "Likert",
+    "points": 7,
+    "anchors": {
+      "1": "not at all",
+      "7": "very much"
+    }
+  },
+  "subscales": {
+    "none": {
+      "note": "SUS is a unidimensional instrument — no subscales. All 6 items load on a single presence factor."
+    }
+  },
+  "items": [
+    {
+      "id": "SUS1",
+      "text": "In the virtual environment I had a sense of 'being there'.",
+      "reverse_scored": false
+    },
+    {
+      "id": "SUS2",
+      "text": "To what extent were there times during the experience when the virtual environment was the reality for you?",
+      "reverse_scored": false
+    },
+    {
+      "id": "SUS3",
+      "text": "When you think back about your experience, do you think of the virtual environment more as images you saw, or more as somewhere you visited?",
+      "reverse_scored": false,
+      "anchor_low": "images I saw",
+      "anchor_high": "somewhere I visited"
+    },
+    {
+      "id": "SUS4",
+      "text": "During the virtual experience, did you often think to yourself that you were actually in the virtual environment?",
+      "reverse_scored": false,
+      "anchor_low": "never",
+      "anchor_high": "very often"
+    },
+    {
+      "id": "SUS5",
+      "text": "To what extent did you feel that the virtual environment surrounded you?",
+      "reverse_scored": false
+    },
+    {
+      "id": "SUS6",
+      "text": "During the virtual experience, how often did you feel disoriented with respect to where you were in the real world?",
+      "reverse_scored": false,
+      "anchor_low": "never",
+      "anchor_high": "very often"
+    }
+  ],
+  "scoring_instructions": {
+    "method": "Sum or mean of all 6 items",
+    "total_range": "6-42 (sum) or 1-7 (mean)",
+    "higher_scores": "Greater sense of spatial presence",
+    "common_practice": "Items SUS1-SUS3 are most frequently cited; some studies use only these 3"
+  },
+  "psychometric_properties": {
+    "internal_consistency": "Cronbach alpha typically 0.78-0.85",
+    "factor_structure": "Unidimensional",
+    "brevity_advantage": "Shortest validated presence questionnaire; minimal respondent burden"
+  },
+  "key_differentiators": [
+    "Shortest of the canonical presence scales (6 items)",
+    "Unidimensional — measures only spatial/place presence",
+    "Dominant in Presence journal community (Rosakranse & Oh, 2014)",
+    "Recommended by Skarbez et al. (2017) for direct presence measurement",
+    "Bouchard et al. single-item version further reduces to 1 item"
+  ],
+  "theoretical_grounding": "Slater's Place Illusion (PI) framework; suspension-of-disbelief model of presence"
+}
