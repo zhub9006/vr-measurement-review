@@ -1,0 +1,72 @@
+# ============================================================
+# Source: payamsash/TIDE (GitHub)
+# File:   config/preprocessing-config.yaml
+# Desc:   Per-site EEG preprocessing options for the TIDE
+#         tinnitus biomarker study (resting-state + oddball + GPIAS).
+#         Demonstrates ICA-based artifact rejection pipeline used
+#         in multi-site EEG experiments — directly applicable to
+#         VR physiological measurement pipelines.
+# ============================================================
+
+Zuerich:
+  psd_check: true
+  manual_data_scroll: true
+  run_ica: true
+  manual_ica_removal: false
+  ssp_eog: false
+  ssp_ecg: false
+  create_report: true
+
+Austin:
+  psd_check: true
+  manual_data_scroll: true
+  run_ica: true
+  manual_ica_removal: false
+  ssp_eog: false
+  ssp_ecg: false
+  create_report: true
+
+Dublin:
+  psd_check: true
+  manual_data_scroll: true
+  run_ica: true
+  manual_ica_removal: false
+  ssp_eog: false
+  ssp_ecg: false
+  create_report: true
+
+Ghent:
+  psd_check: true
+  manual_data_scroll: true
+  run_ica: true
+  manual_ica_removal: false
+  ssp_eog: false
+  ssp_ecg: false
+  create_report: true
+
+Illinois:
+  psd_check: true
+  manual_data_scroll: true
+  run_ica: true
+  manual_ica_removal: false
+  ssp_eog: false
+  ssp_ecg: false
+  create_report: true
+
+Regensburg:
+  psd_check: true
+  manual_data_scroll: true
+  run_ica: true
+  manual_ica_removal: false
+  ssp_eog: false
+  ssp_ecg: false
+  create_report: true
+
+Tuebingen:
+  psd_check: true
+  manual_data_scroll: true
+  run_ica: true
+  manual_ica_removal: false
+  ssp_eog: false
+  ssp_ecg: false
+  create_report: true
