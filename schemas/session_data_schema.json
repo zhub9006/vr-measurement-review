@@ -1,0 +1,130 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "VR Presence & Physiology Experiment Session",
+  "description": "Unified data schema for a VR psychophysiology session combining self-report questionnaires and physiological measures",
+  "type": "object",
+  "required": ["session_id", "participant", "vr_conditions", "questionnaire_scores"],
+  "properties": {
+    "session_id": {
+      "type": "string",
+      "description": "Unique session identifier, e.g. sub-001_ses-01"
+    },
+    "participant": {
+      "type": "object",
+      "required": ["id", "age", "gender"],
+      "properties": {
+        "id": { "type": "string" },
+        "age": { "type": "integer", "minimum": 18, "maximum": 99 },
+        "gender": { "type": "string", "enum": ["male", "female", "non-binary", "prefer_not_to_say"] },
+        "vr_experience": { "type": "string", "enum": ["none", "minimal", "moderate", "extensive"] },
+        "corrected_vision": { "type": "boolean" },
+        "motion_sickness_susceptibility": { "type": "integer", "minimum": 1, "maximum": 10 }
+      }
+    },
+    "vr_conditions": {
+      "type": "array",
+      "description": "One or more VR exposure conditions (within-subjects or between-subjects)",
+      "items": {
+        "type": "object",
+        "required": ["condition_id", "headset", "scene_name", "duration_s"],
+        "properties": {
+          "condition_id": { "type": "string" },
+          "headset": { "type": "string", "examples": ["Meta Quest 3", "Valve Index", "HTC Vive Pro 2"] },
+          "scene_name": { "type": "string" },
+          "duration_s": { "type": "number" },
+          "fov_degrees": { "type": "number" },
+          "refresh_rate_hz": { "type": "number" },
+          "tracking": { "type": "string", "enum": ["3dof", "6dof"] },
+          "haptics": { "type": "boolean" },
+          "audio": { "type": "string", "enum": ["none", "mono", "stereo", "spatial_3d"] }
+        }
+      }
+    },
+    "questionnaire_scores": {
+      "type": "object",
+      "description": "Self-report measures administered post-exposure",
+      "properties": {
+        "ipq": {
+          "type": "object",
+          "properties": {
+            "general_presence": { "type": "number", "minimum": 1, "maximum": 7 },
+            "spatial_presence": { "type": "number", "minimum": 1, "maximum": 7 },
+            "involvement": { "type": "number", "minimum": 1, "maximum": 7 },
+            "realness": { "type": "number", "minimum": 1, "maximum": 7 },
+            "raw_items": { "type": "array", "items": { "type": "integer", "minimum": 1, "maximum": 7 }, "minItems": 14, "maxItems": 14 }
+          }
+        },
+        "itc_sopi": {
+          "type": "object",
+          "properties": {
+            "sense_of_physical_space": { "type": "number", "minimum": 1, "maximum": 5 },
+            "engagement": { "type": "number", "minimum": 1, "maximum": 5 },
+            "naturalness": { "type": "number", "minimum": 1, "maximum": 5 },
+            "negative_effects": { "type": "number", "minimum": 1, "maximum": 5 },
+            "raw_items": { "type": "array", "items": { "type": "integer", "minimum": 1, "maximum": 5 }, "minItems": 44, "maxItems": 44 }
+          }
+        },
+        "sus": {
+          "type": "object",
+          "properties": {
+            "total_score": { "type": "number", "minimum": 6, "maximum": 42 },
+            "mean_score": { "type": "number", "minimum": 1, "maximum": 7 },
+            "raw_items": { "type": "array", "items": { "type": "integer", "minimum": 1, "maximum": 7 }, "minItems": 6, "maxItems": 6 }
+          }
+        },
+        "ssq_pre": {
+          "type": "object",
+          "properties": {
+            "nausea": { "type": "number" },
+            "oculomotor": { "type": "number" },
+            "disorientation": { "type": "number" },
+            "total_score": { "type": "number" }
+          }
+        },
+        "ssq_post": {
+          "type": "object",
+          "properties": {
+            "nausea": { "type": "number" },
+            "oculomotor": { "type": "number" },
+            "disorientation": { "type": "number" },
+            "total_score": { "type": "number" }
+          }
+        }
+      }
+    },
+    "physiological_measures": {
+      "type": "object",
+      "description": "Objective biosignal features extracted per condition",
+      "properties": {
+        "eeg": {
+          "type": "object",
+          "properties": {
+            "alpha_power_frontal": { "type": "number", "description": "Mean alpha (8-13 Hz) power at frontal electrodes" },
+            "theta_power_frontal": { "type": "number", "description": "Mean theta (4-8 Hz) power; workload/engagement" },
+            "beta_power_frontal": { "type": "number", "description": "Mean beta (13-30 Hz) power; active cognition" },
+            "alpha_suppression_index": { "type": "number", "description": "ERD: (task-baseline)/baseline * 100" },
+            "frontal_asymmetry": { "type": "number", "description": "ln(F4 alpha) - ln(F3 alpha); approach/withdrawal" }
+          }
+        },
+        "gsr": {
+          "type": "object",
+          "properties": {
+            "scl_mean_uS": { "type": "number" },
+            "scl_std_uS": { "type": "number" },
+            "scr_count_per_min": { "type": "number" },
+            "scr_mean_amplitude_uS": { "type": "number" }
+          }
+        },
+        "heart_rate": {
+          "type": "object",
+          "properties": {
+            "mean_hr_bpm": { "type": "number" },
+            "rmssd_ms": { "type": "number" },
+            "sdnn_ms": { "type": "number" },
+            "lf_hf_ratio": { "type": "number" }
+          }
+        }
+      }
+    }
+  }
+}
