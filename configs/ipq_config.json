@@ -1,0 +1,79 @@
+{
+  "instrument": "Igroup Presence Questionnaire (IPQ)",
+  "version": "1.0",
+  "citation": "Schubert, T., Friedmann, F., & Regenbrecht, H. (2001). The experience of presence: Factor analytic insights. Presence: Teleoperators and Virtual Environments, 10(3), 266-281.",
+  "url": "http://www.igroup.org/pq/ipq/index.php",
+  "intended_use": "Virtual environments (immersive VR, desktop VR, 3D games, text-based VEs)",
+  "total_items": 14,
+  "response_scale": {
+    "type": "Likert",
+    "points": 7,
+    "anchors": {
+      "1": "fully disagree / not at all",
+      "7": "fully agree / very much"
+    },
+    "note": "Some items are reverse-scored"
+  },
+  "subscales": {
+    "general_presence": {
+      "label": "General Presence (GP)",
+      "item_count": 1,
+      "items": [
+        {
+          "id": "GP",
+          "text": "In the computer generated world I had a sense of 'being there'.",
+          "reverse_scored": false,
+          "anchor_low": "not at all",
+          "anchor_high": "very much"
+        }
+      ],
+      "note": "Single global item; used as criterion validity check; not summed into subscale total"
+    },
+    "spatial_presence": {
+      "label": "Spatial Presence (SP)",
+      "item_count": 5,
+      "items": [
+        { "id": "SP1", "text": "I had a sense of acting in the virtual space.", "reverse_scored": false },
+        { "id": "SP2", "text": "I felt present in the virtual space.", "reverse_scored": false },
+        { "id": "SP3", "text": "I did not feel present in the virtual space.", "reverse_scored": true },
+        { "id": "SP4", "text": "I had a sense of being there.", "reverse_scored": false },
+        { "id": "SP5", "text": "The virtual world seemed more realistic than the real world.", "reverse_scored": false }
+      ],
+      "scoring": "Mean of items after reverse-scoring SP3"
+    },
+    "involvement": {
+      "label": "Involvement (INV)",
+      "item_count": 4,
+      "items": [
+        { "id": "INV1", "text": "I was not aware of my real environment.", "reverse_scored": false },
+        { "id": "INV2", "text": "I still paid attention to the real environment.", "reverse_scored": true },
+        { "id": "INV3", "text": "I was completely captivated by the virtual world.", "reverse_scored": false },
+        { "id": "INV4", "text": "My experience in the virtual environment seemed consistent with my real world experience.", "reverse_scored": false }
+      ],
+      "scoring": "Mean of items after reverse-scoring INV2"
+    },
+    "realness": {
+      "label": "Realness (REAL)",
+      "item_count": 4,
+      "items": [
+        { "id": "REAL1", "text": "The virtual world seemed real to me.", "reverse_scored": false },
+        { "id": "REAL2", "text": "Somehow I felt that the virtual world was not real.", "reverse_scored": true },
+        { "id": "REAL3", "text": "The virtual world seemed realistic.", "reverse_scored": false },
+        { "id": "REAL4", "text": "Objects in the virtual environment did not seem real to me.", "reverse_scored": true }
+      ],
+      "scoring": "Mean of items after reverse-scoring REAL2 and REAL4"
+    }
+  },
+  "scoring_instructions": {
+    "method": "Subscale means; higher scores indicate greater presence/realness/involvement",
+    "reverse_score_procedure": "new_score = 8 - original_score (for 7-point scale)",
+    "total_score": "Not standard; subscales reported separately",
+    "validation_notes": "GP item used as external criterion; all subscales should correlate positively with GP"
+  },
+  "psychometric_properties": {
+    "internal_consistency": "Cronbach alpha typically 0.70-0.85 per subscale",
+    "factor_structure": "3-factor solution confirmed in original study (N=246)",
+    "languages_available": ["English", "German", "Spanish", "French", "Chinese"]
+  },
+  "theoretical_grounding": "Zahorik & Jenison (1998) presence-as-being-in-the-world; Schubert et al. factor analysis of 75-item pool"
+}
