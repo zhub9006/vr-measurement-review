@@ -1,0 +1,78 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ITC-SOPI — Independent Television Commission Sense of Presence Inventory",
+  "description": "44-item self-report questionnaire measuring sense of presence across four factors. Developed by Lessiter et al. (2001) for cross-media applicability (film, TV, VR, games).",
+  "version": "1.0",
+  "citation": "Lessiter, J., Freeman, J., Keogh, E., & Davidoff, J. (2001). A cross-media presence questionnaire: The ITC-Sense of Presence Inventory. Presence, 10(3), 282-297.",
+  "scale": {
+    "type": "Likert",
+    "anchors": {
+      "min": 1,
+      "max": 4,
+      "labels": {
+        "1": "not at all",
+        "2": "slightly",
+        "3": "moderately",
+        "4": "very much"
+      }
+    }
+  },
+  "subscales": {
+    "SP": {
+      "name": "Sense of Physical Space",
+      "description": "Feeling of being located in the mediated environment; spatial realism",
+      "item_count": 16,
+      "scoring": "sum or mean of items"
+    },
+    "ENG": {
+      "name": "Engagement",
+      "description": "Involvement and attention devoted to the environment",
+      "item_count": 11,
+      "scoring": "sum or mean of items"
+    },
+    "ECO": {
+      "name": "Ecological Validity / Naturalness",
+      "description": "How natural and consistent with real-world experience the environment seems",
+      "item_count": 10,
+      "scoring": "sum or mean of items"
+    },
+    "NE": {
+      "name": "Negative Effects",
+      "description": "Discomfort, disorientation, or adverse reactions (cybersickness indicators)",
+      "item_count": 7,
+      "scoring": "sum or mean of items; higher = more negative effects"
+    }
+  },
+  "sample_items": {
+    "SP": [
+      "I had a sense of being in the scenes depicted.",
+      "The environment seemed to surround me.",
+      "I felt I was visiting the places shown rather than just watching them."
+    ],
+    "ENG": [
+      "The experience felt involving.",
+      "My attention was captured by the environment.",
+      "I became caught up in the environment."
+    ],
+    "ECO": [
+      "Events and objects seemed to move and behave in a natural way.",
+      "The experience felt consistent with the way things work in real life."
+    ],
+    "NE": [
+      "I felt confused or disoriented.",
+      "I felt nauseous.",
+      "I felt uncomfortable."
+    ]
+  },
+  "composite_scoring": {
+    "method": "subscale_means",
+    "note": "NE subscale is typically reported separately and may be used as a covariate or exclusion criterion rather than summed into a total presence score.",
+    "reverse_coding": "NE items may be reverse-coded when computing overall presence composite — check original paper for item-level guidance."
+  },
+  "administration": {
+    "timing": "Post-experience (retrospective)",
+    "duration_minutes": "5-10",
+    "format": "Paper or digital Likert response"
+  },
+  "cross_media_applicability": ["Film","Television","Desktop VR","HMD VR","CAVE","Video games","Augmented Reality"]
+}
