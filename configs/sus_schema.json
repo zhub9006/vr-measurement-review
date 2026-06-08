@@ -1,0 +1,92 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Slater-Usoh-Steed (SUS) Presence Questionnaire",
+  "description": "6-item presence questionnaire for virtual environments. One of the shortest validated instruments. Based on Draper et al. (1998) notion of presence as a mental state. Originally appeared in Slater, Steed & Usoh (1993); current 6-item version from Usoh et al. (2000).",
+  "citation": "Usoh, M., Catena, E., Arman, S., & Slater, M. (2000). Using presence questionnaires in reality. Presence: Teleoperators and Virtual Environments, 9(5), 497-503.",
+  "scale_type": "Likert",
+  "response_format": "7-point scale (1 = Not at all to 7 = Very much)",
+  "total_items": 6,
+  "reliability": {
+    "note": "Reliability not formally reported by original authors. Correlates strongly with PQ (r=0.51)."
+  },
+  "subscales": {
+    "No_subscales": {
+      "description": "The SUS is treated as a unidimensional scale — all 6 items contribute to a single presence score"
+    }
+  },
+  "items": [
+    {
+      "id": "SUS1",
+      "text": "To what extent did you feel you visited a real place?",
+      "anchor_low": "Not at all",
+      "anchor_high": "Very much",
+      "dimension": "Being there",
+      "reverse_coded": false
+    },
+    {
+      "id": "SUS2",
+      "text": "How often did you feel you were in the virtual environment?",
+      "anchor_low": "Never",
+      "anchor_high": "Almost always",
+      "dimension": "Frequency of presence",
+      "reverse_coded": false
+    },
+    {
+      "id": "SUS3",
+      "text": "How often did real-world events intrude on your virtual experience?",
+      "anchor_low": "Never",
+      "anchor_high": "Almost always",
+      "dimension": "Real-world intrusion",
+      "reverse_coded": true
+    },
+    {
+      "id": "SUS4",
+      "text": "How much did the virtual environment feel like real life?",
+      "anchor_low": "Not at all",
+      "anchor_high": "Very much",
+      "dimension": "Ecological validity",
+      "reverse_coded": false
+    },
+    {
+      "id": "SUS5",
+      "text": "How much did you feel that the virtual environment was more real than the real world?",
+      "anchor_low": "Not at all",
+      "anchor_high": "Very much",
+      "dimension": "Comparative reality",
+      "reverse_coded": false
+    },
+    {
+      "id": "SUS6",
+      "text": "How real did the virtual world seem to you?",
+      "anchor_low": "Not real at all",
+      "anchor_high": "As real as the real world",
+      "dimension": "Perceived reality",
+      "reverse_coded": false
+    }
+  ],
+  "scoring": {
+    "method": "Mean of all 6 items after reverse-scoring SUS3; or median for ordinal interpretation",
+    "reverse_score_items": ["SUS3"],
+    "higher_score_means": "Greater sense of presence",
+    "note": "Skarbez et al. (2017) recommend SUS for direct, short presence measurement. Correlates with PQ (r=0.51). Negatively related to task errors."
+  },
+  "administration": {
+    "timing": "Post-experience",
+    "duration_minutes": 1,
+    "format": "Paper or digital"
+  },
+  "intended_use": "Virtual environments — any immersive VR system",
+  "construct_measured": "Spatial/physical presence (Place Illusion)",
+  "theoretical_basis": "Presence as a mental state; suspension of disbelief; 'being there' as primary construct",
+  "known_limitations": [
+    "No subscales — cannot decompose components of presence",
+    "Reliability not formally validated by authors",
+    "Does not address social presence, engagement, or negative effects",
+    "Very brief — may miss nuance"
+  ],
+  "distinguishing_features": [
+    "Shortest validated instrument (6 items, ~1 minute)",
+    "Recommended for quick direct presence measurement (Skarbez et al., 2017)",
+    "Widely used across VR research communities"
+  ]
+}

@@ -1,0 +1,83 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ITC-Sense of Presence Inventory (ITC-SOPI)",
+  "description": "44-item cross-media presence questionnaire. Developed by Lessiter, Freeman, Keogh & Davidoff (2001). Designed to measure presence across a wide range of media types (TV, film, VR, games). Focuses entirely on the user's experience with the media — no questions about system hardware or content story elements.",
+  "citation": "Lessiter, J., Freeman, J., Keogh, E., & Davidoff, J. (2001). A cross-media presence questionnaire: The ITC-Sense of Presence Inventory. Presence: Teleoperators and Virtual Environments, 10(3), 282-297.",
+  "scale_type": "Likert",
+  "response_format": "5-point scale (1 = Strongly Disagree to 5 = Strongly Agree)",
+  "total_items": 44,
+  "factor_analysis": "Principal component analysis yielding 4 factors",
+  "subscales": {
+    "Sense_of_Physical_Space": {
+      "abbreviation": "SPS",
+      "item_count": 13,
+      "description": "Sense of being physically located in the mediated environment; spatial presence component. Analogous to Place Illusion (Slater, 2009).",
+      "example_items": [
+        "I had a sense of being in the scenes displayed.",
+        "It felt as though I was in the same space as the characters or objects.",
+        "I felt I could reach out and touch things in the environment.",
+        "The space I was in felt real to me."
+      ]
+    },
+    "Engagement": {
+      "abbreviation": "ENG",
+      "item_count": 13,
+      "description": "Affective engagement, enjoyment, and emotional involvement with the media content. Distinct from spatial presence; captures affinity for the experience.",
+      "example_items": [
+        "I enjoyed myself.",
+        "My experience was intense.",
+        "I found the content interesting.",
+        "The experience was absorbing."
+      ]
+    },
+    "Ecological_Validity_Naturalness": {
+      "abbreviation": "ECO",
+      "item_count": 10,
+      "description": "Perceived naturalness and realism of the mediated environment; coherence of the virtual world with real-world expectations.",
+      "example_items": [
+        "The environment looked natural.",
+        "Things in the environment moved naturally.",
+        "Objects in the environment seemed to have the right scale.",
+        "The experience felt real."
+      ]
+    },
+    "Negative_Effects": {
+      "abbreviation": "NEG",
+      "item_count": 8,
+      "description": "Discomfort, disorientation, and negative side effects of the VR experience (cybersickness, dizziness, eyestrain). Reverse-coded for presence scoring.",
+      "example_items": [
+        "I felt dizzy.",
+        "I felt disoriented.",
+        "I experienced eye strain.",
+        "I felt nauseous."
+      ]
+    }
+  },
+  "scoring": {
+    "method": "Mean score per subscale; Negative Effects subscale is reverse-coded",
+    "reverse_score_subscale": "Negative_Effects",
+    "composite_score": "Optional: mean of all four subscale scores after NEG reversal",
+    "higher_score_means": "Greater sense of presence / engagement / naturalness; fewer negative effects",
+    "note": "Negative Effects score is sometimes reported separately as a cybersickness index"
+  },
+  "administration": {
+    "timing": "Post-experience",
+    "duration_minutes": 5,
+    "format": "Paper or digital",
+    "target_media": ["Television", "Film", "VR", "Video games", "Desktop VEs", "CAVE systems"]
+  },
+  "intended_use": "Cross-media — usable with any media type from passive TV viewing to immersive VR",
+  "construct_measured": "Multi-dimensional presence including physical space, engagement, naturalness, and negative effects",
+  "theoretical_basis": "Empirically derived via factor analysis; not tied to a single theoretical model",
+  "known_limitations": [
+    "Post-experience only",
+    "Does not address specific system properties",
+    "Engagement subscale may conflate presence with enjoyment/entertainment",
+    "44 items is relatively long"
+  ],
+  "distinguishing_features": [
+    "Only major presence questionnaire with a Negative Effects subscale",
+    "Designed for cross-media use (not VR-specific)",
+    "Widely used in ISPR conference community"
+  ]
+}
