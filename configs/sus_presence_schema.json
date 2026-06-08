@@ -1,0 +1,61 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Slater-Usoh-Steed (SUS) Presence Questionnaire",
+  "description": "6-item ordinal scale measuring the subjective sense of 'being there' in a virtual environment. Designed for brevity and high sensitivity to HMD/tracking quality differences.",
+  "version": "1.0",
+  "citation": "Slater, M., Usoh, M., & Steed, A. (1994). Depth of presence in virtual environments. Presence, 3(2), 130-144. | Usoh, M., Catena, E., Arman, S., & Slater, M. (2000). Using presence questionnaires in reality. Presence, 9(5), 497-503.",
+  "scale": {
+    "type": "Ordinal",
+    "anchors": {
+      "min": 1,
+      "max": 7,
+      "labels": {
+        "1": "not at all",
+        "7": "completely"
+      }
+    }
+  },
+  "items": {
+    "SUS1": {
+      "text": "To what extent do you feel that you visited the virtual place rather than just saw images of it?",
+      "reversed": false
+    },
+    "SUS2": {
+      "text": "To what extent were there times during the experience when the virtual place was the reality for you?",
+      "reversed": false
+    },
+    "SUS3": {
+      "text": "When you think back about your experience, do you think of the virtual place more as images you saw or more as somewhere you visited?",
+      "anchors": {
+        "1": "images I saw",
+        "7": "somewhere I visited"
+      },
+      "reversed": false
+    },
+    "SUS4": {
+      "text": "During the experience, did you often think to yourself that you were actually in the virtual environment?",
+      "reversed": false
+    },
+    "SUS5": {
+      "text": "How much did the virtual environment seem real to you?",
+      "reversed": false
+    },
+    "SUS6": {
+      "text": "How compelling was your sense of moving around inside the virtual environment?",
+      "reversed": false
+    }
+  },
+  "scoring": {
+    "primary_method": "presence_threshold",
+    "description": "Count the number of items rated >= 6 (on a 1-7 scale). Presence is considered high if >= 3 items score >= 6.",
+    "alternative_method": "mean_of_all_items",
+    "formula": "SUS_score = mean(SUS1, SUS2, SUS3, SUS4, SUS5, SUS6)",
+    "threshold_criterion": "Items >= 6 count >= 3 → high presence classification",
+    "note": "The threshold method is more commonly reported in Slater lab papers; mean is used in comparative studies."
+  },
+  "psychometric_properties": {
+    "validated_in": "HMD VR, CAVE, desktop VR",
+    "strengths": ["Very short (6 items)","Sensitive to hardware quality differences (FOV, tracking latency)","Well-validated across many labs"],
+    "limitations": ["Does not decompose presence into subscales","Less diagnostic than IPQ or ITC-SOPI","Ordinal scoring limits parametric analysis"]
+  }
+}
