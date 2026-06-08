@@ -1,0 +1,84 @@
+# ============================================================
+# Source: neuropsychology/NeuroKit (GitHub, MIT License, 2254 stars)
+# File:   pyproject.toml
+# Desc:   Build/dependency config for NeuroKit2 — the primary Python
+#         toolbox for physiological signal processing (EDA/GSR, ECG,
+#         PPG, EMG, RSP). Core tool for VR GSR/arousal measurement.
+#         Key EDA capabilities: eda_simulate, eda_process, eda_plot,
+#         SCR peak detection, tonic/phasic decomposition.
+# Citation: Makowski et al. (2021). NeuroKit2. Behavior Research Methods, 53(4), 1689-1696.
+# ============================================================
+
+[build-system]
+requires = ["hatchling", "hatch-vcs"]
+build-backend = "hatchling.build"
+
+[project]
+name = "neurokit2"
+dynamic = ["version"]
+description = "The Python Toolbox for Neurophysiological Signal Processing."
+readme = "README.rst"
+requires-python = ">=3.10"
+license = {text = "MIT License"}
+authors = [
+    {name = "Dominique Makowski", email = "D.Makowski@sussex.ac.uk"},
+    {name = "Tam Pham"},
+    {name = "Zen Juen Lau"},
+    {name = "Jan C. Brammer"},
+    {name = "Francois Lespinasse"}
+]
+keywords = ["NeuroKit2", "physiology", "bodily signals", "Python", "ECG", "EDA", "EMG", "PPG"]
+classifiers = [
+    "Development Status :: 2 - Pre-Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Natural Language :: English",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13"
+]
+
+dependencies = [
+    "requests",
+    "numpy>=2.0.0",
+    "pandas<3.0.0",
+    "scipy",
+    "scikit-learn>=1.0.0",
+    "matplotlib>=3.5.0",
+    "PyWavelets>=1.4.0",
+    "setuptools<82.0.0",
+]
+
+[project.optional-dependencies]
+full = [
+    "bioread",
+    "joblib",
+    "pyxdf",
+    "opencv-python",
+    "pillow",
+    "tabulate",
+    "PyEMD",
+    "pyrqa",
+    "mne",
+    "plotly",
+    "ts2vg",
+    "cvxopt",   # used for cvxEDA tonic/phasic decomposition
+]
+
+[project.urls]
+Homepage = "https://github.com/neuropsychology/NeuroKit"
+Repository = "https://github.com/neuropsychology/NeuroKit"
+Documentation = "https://neuropsychology.github.io/NeuroKit/"
+
+[tool.ruff]
+line-length = 127
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "W", "F", "I", "UP", "PL"]
+ignore = [
+    "E712",    "C901",    "PLR0912", "PLR0913",
+    "PLR0915", "PLR0914", "PLC0415", "PLR2004",
+    "PLR0911",
+]
