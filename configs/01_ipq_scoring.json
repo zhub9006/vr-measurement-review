@@ -1,0 +1,67 @@
+{
+  "_meta": {
+    "instrument": "iGroup Presence Questionnaire (IPQ)",
+    "source_repo": "zhub9006/vr-measurement-review",
+    "canonical_reference": "Schubert T., Friedmann F., Regenbrecht H. (2001). The experience of presence: Factor analytic insights. Presence: Teleoperators and Virtual Environments, 10(3), 266-281.",
+    "scale_points": 7,
+    "scale_anchors": { "1": "fully disagree", "7": "fully agree" },
+    "total_items": 14,
+    "subscales": ["SP", "INV", "REAL", "G"]
+  },
+  "subscales": {
+    "SP": {
+      "name": "Spatial Presence",
+      "description": "Sense of physically being in the virtual environment",
+      "items": [
+        {"id": "SP1", "text": "I had a sense of acting in the virtual space.", "reverse": false},
+        {"id": "SP2", "text": "I felt present in the virtual space.", "reverse": false},
+        {"id": "SP3", "text": "I did not feel present in the virtual space.", "reverse": true},
+        {"id": "SP4", "text": "I had a sense of being there.", "reverse": false},
+        {"id": "SP5", "text": "I felt like I was just perceiving pictures.", "reverse": true}
+      ],
+      "scoring": "Mean of item scores after reversing reverse-coded items. Range 1-7."
+    },
+    "INV": {
+      "name": "Involvement",
+      "description": "Attention and involvement directed toward the virtual environment",
+      "items": [
+        {"id": "INV1", "text": "I was not aware of my real environment.", "reverse": false},
+        {"id": "INV2", "text": "I was completely captivated by the virtual world.", "reverse": false},
+        {"id": "INV3", "text": "I noticed that my attention was in the virtual environment.", "reverse": false}
+      ],
+      "scoring": "Mean of item scores. Range 1-7."
+    },
+    "REAL": {
+      "name": "Experienced Realism",
+      "description": "Subjective experience of realism in the virtual environment",
+      "items": [
+        {"id": "REAL1", "text": "The virtual world seemed realistic to me.", "reverse": false},
+        {"id": "REAL2", "text": "How much did the visual aspects of the environment seem real?", "reverse": false},
+        {"id": "REAL3", "text": "How real did the virtual world seem to you?", "reverse": false},
+        {"id": "REAL4", "text": "The virtual environment appeared real to me.", "reverse": false}
+      ],
+      "scoring": "Mean of item scores. Range 1-7."
+    },
+    "G": {
+      "name": "General Presence",
+      "description": "Single-item global presence anchor",
+      "items": [
+        {"id": "G1", "text": "In the computer generated world I had a sense of 'being there'.", "reverse": false}
+      ],
+      "scoring": "Single item score 1-7. Used as a reference/anchor; not included in composite."
+    }
+  },
+  "composite_scoring": {
+    "total_presence_score": "Mean of SP, INV, and REAL subscale scores (G excluded). Range 1-7.",
+    "interpretation": {
+      "1.0-2.9": "Low presence",
+      "3.0-4.9": "Moderate presence",
+      "5.0-7.0": "High presence"
+    }
+  },
+  "administration": {
+    "timing": "Administered immediately after VR exposure ends",
+    "format": "Paper or digital 7-point Likert",
+    "estimated_duration_minutes": 3
+  }
+}
