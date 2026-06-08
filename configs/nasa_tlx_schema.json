@@ -1,0 +1,81 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "NASA Task Load Index (NASA-TLX)",
+  "description": "6-subscale multidimensional rating procedure for assessing perceived workload. Widely used in VR studies as a proxy for cognitive load and mental effort.",
+  "version": "1.0",
+  "citation": "Hart, S.G., & Staveland, L.E. (1988). Development of NASA-TLX (Task Load Index): Results of empirical and theoretical research. Advances in Psychology, 52, 139-183.",
+  "scale": {
+    "type": "Bipolar_VAS",
+    "resolution": 20,
+    "anchors": {
+      "min": 0,
+      "max": 100,
+      "step": 5
+    }
+  },
+  "subscales": {
+    "MD": {
+      "name": "Mental Demand",
+      "question": "How much mental and perceptual activity was required (e.g., thinking, deciding, calculating, remembering, looking, searching, etc.)? Was the task easy or demanding, simple or complex, exacting or forgiving?",
+      "low_anchor": "Very Low",
+      "high_anchor": "Very High"
+    },
+    "PD": {
+      "name": "Physical Demand",
+      "question": "How much physical activity was required (e.g., pushing, pulling, turning, controlling, activating, etc.)? Was the task easy or demanding, slow or brisk, slack or strenuous, restful or laborious?",
+      "low_anchor": "Very Low",
+      "high_anchor": "Very High"
+    },
+    "TD": {
+      "name": "Temporal Demand",
+      "question": "How much time pressure did you feel due to the rate or pace at which the tasks or task elements occurred? Was the pace slow and leisurely or rapid and frantic?",
+      "low_anchor": "Very Low",
+      "high_anchor": "Very High"
+    },
+    "OP": {
+      "name": "Performance",
+      "question": "How successful do you think you were in accomplishing the goals of the task set by the experimenter (or yourself)? How satisfied were you with your performance in accomplishing these goals?",
+      "low_anchor": "Perfect",
+      "high_anchor": "Failure",
+      "note": "This subscale is REVERSED — lower raw score indicates better performance; invert when computing workload composite."
+    },
+    "EF": {
+      "name": "Effort",
+      "question": "How hard did you have to work (mentally and physically) to accomplish your level of performance?",
+      "low_anchor": "Very Low",
+      "high_anchor": "Very High"
+    },
+    "FR": {
+      "name": "Frustration",
+      "question": "How insecure, discouraged, irritated, stressed, and annoyed were you?",
+      "low_anchor": "Very Low",
+      "high_anchor": "Very High"
+    }
+  },
+  "scoring_methods": {
+    "raw_TLX": {
+      "description": "Unweighted mean of all 6 subscales (most commonly used in VR/HCI research)",
+      "formula": "TLX_raw = mean(MD, PD, TD, 100-OP, EF, FR)",
+      "note": "OP must be reversed before averaging"
+    },
+    "weighted_TLX": {
+      "description": "Pairwise comparison weighting — participants rank subscale importance via 15 pairwise comparisons; each subscale's weight = number of times chosen / 15",
+      "formula": "TLX_weighted = sum(subscale_score * weight) / 15",
+      "note": "More valid for between-subject comparisons; adds ~5 minutes to administration"
+    }
+  },
+  "administration": {
+    "timing": "Post-task (immediately after each task block)",
+    "duration_minutes": "2-5 (raw TLX), 7-12 (weighted TLX)",
+    "validated_in": "Aviation, HCI, VR, surgical simulation, driving simulation"
+  },
+  "vr_specific_notes": {
+    "subscale_relevance": {
+      "MD": "Sensitive to VR task complexity and navigation demands",
+      "PD": "Sensitive to controller interaction and locomotion method",
+      "TD": "Sensitive to task pacing in VR scenarios",
+      "FR": "Correlates with cybersickness and poor usability"
+    },
+    "correlation_with_physiological": "MD and EF subscales correlate most strongly with EEG theta power and fNIRS HbO increases in prefrontal cortex"
+  }
+}
