@@ -1,0 +1,118 @@
+# Combined VR Psychophysiology Experiment Configuration
+# Integrates subjective (IPQ, ITC-SOPI) and physiological (EEG, GSR) measurement
+
+experiment:
+  name: vr_presence_psychophysiology_study
+  version: "1.0"
+  description: >
+    Master configuration for a within-subjects VR presence study combining
+    subjective questionnaires and continuous physiological measurement.
+
+# ─── Study Design ────────────────────────────────────────────────────────────────
+study_design:
+  design: within-subjects
+  conditions:
+    - id: C1
+      label: High-Immersion HMD VR
+      device: HMD (e.g., Meta Quest 3, Valve Index)
+      expected_presence: high
+    - id: C2
+      label: Desktop VR
+      device: Standard 2D monitor, mouse/keyboard
+      expected_presence: low
+  counterbalancing: latin_square
+  washout_period_min: 15
+  total_session_duration_min: 90
+
+# ─── Measurement Battery ─────────────────────────────────────────────────────────
+measurement_battery:
+  subjective:
+    - instrument: IPQ
+      config_file: configs/ipq_scoring.json
+      administration: post-condition
+      estimated_time_min: 5
+      subscales_used: [SP, INV, REAL, G]
+      primary_outcome: Spatial Presence (SP subscale mean)
+    - instrument: ITC-SOPI
+      config_file: configs/itc_sopi_scoring.json
+      administration: post-condition
+      estimated_time_min: 12
+      subscales_used: [PPS, ENG, ECO, NAU]
+      primary_outcome: Physical Space (PPS subscale mean)
+      note: Use short-form (22 items) if fatigue is a concern
+
+  physiological:
+    - modality: EEG
+      config_file: configs/eeg_pipeline_config.yaml
+      recording: continuous throughout condition
+      primary_feature: theta_frontal_power
+      presence_index: Neural Presence Index (NPI)
+      hardware: OpenBCI Cyton 8-ch (minimum) or BrainProducts 64-ch
+    - modality: GSR
+      config_file: configs/gsr_pipeline_config.yaml
+      recording: continuous throughout condition
+      primary_feature: SCR_frequency
+      arousal_index: GSR Arousal-Presence Score (GAPS)
+      hardware: Shimmer3 GSR+ (wireless, VR-compatible)
+
+# ─── Session Protocol Timeline ────────────────────────────────────────────────────
+session_protocol:
+  - phase: Consent & Setup
+    duration_min: 15
+    tasks: [informed_consent, EEG_cap_fitting, GSR_electrode_placement, impedance_check]
+  - phase: Baseline Recording
+    duration_min: 5
+    tasks: [resting_EEG_eyes_open, GSR_baseline, questionnaire_demographics]
+  - phase: Condition Block (repeat per condition)
+    duration_min: 25
+    sub_phases:
+      - name: VR Acclimatisation
+        duration_min: 3
+      - name: VR Task / Free Exploration
+        duration_min: 15
+        physio_recording: active
+      - name: Questionnaire Administration (IPQ then ITC-SOPI)
+        duration_min: 17
+        physio_recording: paused
+  - phase: Washout & Counterbalancing
+    duration_min: 15
+  - phase: Debrief
+    duration_min: 5
+
+# ─── Analysis Pipeline ──────────────────────────────────────────────────────────────
+analysis_pipeline:
+  primary_comparison:
+    method: paired t-test or Wilcoxon signed-rank (normality check first)
+    between_conditions: [C1, C2]
+    outcome_variables:
+      subjective:  [IPQ_SP, IPQ_total, ITC_SOPI_PPS, ITC_SOPI_total]
+      physiological: [NPI_mean, GAPS_mean, theta_frontal_power, SCR_frequency]
+
+  convergent_validity:
+    method: Pearson / Spearman correlation
+    pairs:
+      - [IPQ_SP, NPI_mean]
+      - [ITC_SOPI_PPS, GAPS_mean]
+      - [IPQ_INV, theta_frontal_power]
+      - [ITC_SOPI_NAU, SCR_frequency]
+    hypothesis: >
+      Positive correlations expected between subjective presence (IPQ_SP, ITC-SOPI_PPS)
+      and neural presence (NPI) under high-immersion condition.
+
+  effect_size: Cohens_d
+  multiple_comparisons_correction: Bonferroni
+  significance_threshold: 0.05
+  software: [Python_3.10, MNE-Python_1.6, NeuroKit2_0.2, pingouin_0.5, pandas_2.0]
+
+# ─── Data Management ────────────────────────────────────────────────────────────────
+data_management:
+  directory_structure:
+    raw_eeg: data/raw/eeg/
+    raw_gsr: data/raw/gsr/
+    questionnaires: data/questionnaires/
+    processed: data/processed/
+    figures: results/figures/
+    stats: results/stats/
+  anonymisation: pseudonymise with participant ID (P001, P002, ...)
+  backup: encrypted cloud storage (GDPR compliant)
+  retention_years: 10
