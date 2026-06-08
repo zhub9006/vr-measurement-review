@@ -1,79 +1,168 @@
 {
-  "instrument": "Igroup Presence Questionnaire (IPQ)",
-  "version": "1.0",
+  "scale": "Igroup Presence Questionnaire (IPQ)",
   "citation": "Schubert, T., Friedmann, F., & Regenbrecht, H. (2001). The experience of presence: Factor analytic insights. Presence: Teleoperators and Virtual Environments, 10(3), 266-281.",
-  "url": "http://www.igroup.org/pq/ipq/index.php",
-  "intended_use": "Virtual environments (immersive VR, desktop VR, 3D games, text-based VEs)",
-  "total_items": 14,
-  "response_scale": {
-    "type": "Likert",
-    "points": 7,
-    "anchors": {
-      "1": "fully disagree / not at all",
-      "7": "fully agree / very much"
-    },
-    "note": "Some items are reverse-scored"
+  "source_repository": "https://github.com/Juanes1516/Biosignals_VR",
+  "source_file": "code/ipq_survey.py",
+  "source_url": "https://www.igroup.org/pq/ipq/items.php",
+  "n_items": 14,
+  "scale_range": [0, 6],
+  "scale_anchors": {
+    "min": 0,
+    "max": 6,
+    "description": "Bipolar anchors; 0 = left anchor, 6 = right anchor, 3 = midpoint"
   },
+  "reliability_alpha": 0.87,
+  "reverse_scored_items": ["inv1", "inv2", "inv3", "inv4", "sp2", "sp3"],
+  "reverse_formula": "scored = 6 - raw",
   "subscales": {
-    "general_presence": {
-      "label": "General Presence (GP)",
-      "item_count": 1,
-      "items": [
-        {
-          "id": "GP",
-          "text": "In the computer generated world I had a sense of 'being there'.",
-          "reverse_scored": false,
-          "anchor_low": "not at all",
-          "anchor_high": "very much"
-        }
-      ],
-      "note": "Single global item; used as criterion validity check; not summed into subscale total"
+    "G": {
+      "name": "General Presence",
+      "n_items": 1,
+      "item_ids": ["g1"],
+      "scoring": "single item score (0-6)"
     },
-    "spatial_presence": {
-      "label": "Spatial Presence (SP)",
-      "item_count": 5,
-      "items": [
-        { "id": "SP1", "text": "I had a sense of acting in the virtual space.", "reverse_scored": false },
-        { "id": "SP2", "text": "I felt present in the virtual space.", "reverse_scored": false },
-        { "id": "SP3", "text": "I did not feel present in the virtual space.", "reverse_scored": true },
-        { "id": "SP4", "text": "I had a sense of being there.", "reverse_scored": false },
-        { "id": "SP5", "text": "The virtual world seemed more realistic than the real world.", "reverse_scored": false }
-      ],
-      "scoring": "Mean of items after reverse-scoring SP3"
+    "SP": {
+      "name": "Spatial Presence",
+      "n_items": 5,
+      "item_ids": ["sp1", "sp2", "sp3", "sp4", "sp5"],
+      "scoring": "mean of scored items (0-6)"
     },
-    "involvement": {
-      "label": "Involvement (INV)",
-      "item_count": 4,
-      "items": [
-        { "id": "INV1", "text": "I was not aware of my real environment.", "reverse_scored": false },
-        { "id": "INV2", "text": "I still paid attention to the real environment.", "reverse_scored": true },
-        { "id": "INV3", "text": "I was completely captivated by the virtual world.", "reverse_scored": false },
-        { "id": "INV4", "text": "My experience in the virtual environment seemed consistent with my real world experience.", "reverse_scored": false }
-      ],
-      "scoring": "Mean of items after reverse-scoring INV2"
+    "INV": {
+      "name": "Involvement",
+      "n_items": 4,
+      "item_ids": ["inv1", "inv2", "inv3", "inv4"],
+      "scoring": "mean of scored items (0-6)"
     },
-    "realness": {
-      "label": "Realness (REAL)",
-      "item_count": 4,
-      "items": [
-        { "id": "REAL1", "text": "The virtual world seemed real to me.", "reverse_scored": false },
-        { "id": "REAL2", "text": "Somehow I felt that the virtual world was not real.", "reverse_scored": true },
-        { "id": "REAL3", "text": "The virtual world seemed realistic.", "reverse_scored": false },
-        { "id": "REAL4", "text": "Objects in the virtual environment did not seem real to me.", "reverse_scored": true }
-      ],
-      "scoring": "Mean of items after reverse-scoring REAL2 and REAL4"
+    "REAL": {
+      "name": "Experienced Realism",
+      "n_items": 4,
+      "item_ids": ["real1", "real2", "real3", "real4"],
+      "scoring": "mean of scored items (0-6)"
     }
   },
-  "scoring_instructions": {
-    "method": "Subscale means; higher scores indicate greater presence/realness/involvement",
-    "reverse_score_procedure": "new_score = 8 - original_score (for 7-point scale)",
-    "total_score": "Not standard; subscales reported separately",
-    "validation_notes": "GP item used as external criterion; all subscales should correlate positively with GP"
+  "items": [
+    {
+      "id": "inv1",
+      "subscale": "INV",
+      "reverse": true,
+      "text": "How aware were you of the real world surrounding you while navigating in the virtual world? (i.e. sounds, room temperature, other people, etc.)",
+      "left": "extremely aware",
+      "right": "not aware at all"
+    },
+    {
+      "id": "real1",
+      "subscale": "REAL",
+      "reverse": true,
+      "text": "How real did the virtual world seem to you?",
+      "left": "completely real",
+      "right": "not real at all"
+    },
+    {
+      "id": "sp4",
+      "subscale": "SP",
+      "reverse": false,
+      "text": "I had a sense of acting in the virtual space, rather than operating something from outside.",
+      "left": "strongly disagree",
+      "right": "strongly agree"
+    },
+    {
+      "id": "real2",
+      "subscale": "REAL",
+      "reverse": false,
+      "text": "How much did your experience in the virtual environment seem consistent with your real world experience?",
+      "left": "not consistent",
+      "right": "very consistent"
+    },
+    {
+      "id": "real3",
+      "subscale": "REAL",
+      "reverse": false,
+      "text": "How real did the virtual world seem to you?",
+      "left": "as real as an imagined world",
+      "right": "indistinguishable from the real world"
+    },
+    {
+      "id": "sp3",
+      "subscale": "SP",
+      "reverse": true,
+      "text": "I did not feel present in the virtual space.",
+      "left": "did not feel present",
+      "right": "felt present"
+    },
+    {
+      "id": "inv2",
+      "subscale": "INV",
+      "reverse": true,
+      "text": "I was not aware of my real environment.",
+      "left": "strongly disagree",
+      "right": "strongly agree"
+    },
+    {
+      "id": "g1",
+      "subscale": "G",
+      "reverse": false,
+      "text": "In the computer generated world I had a sense of 'being there'.",
+      "left": "not at all",
+      "right": "very much"
+    },
+    {
+      "id": "sp1",
+      "subscale": "SP",
+      "reverse": false,
+      "text": "Somehow I felt that the virtual world surrounded me.",
+      "left": "strongly disagree",
+      "right": "strongly agree"
+    },
+    {
+      "id": "sp5",
+      "subscale": "SP",
+      "reverse": false,
+      "text": "I felt present in the virtual space.",
+      "left": "strongly disagree",
+      "right": "strongly agree"
+    },
+    {
+      "id": "inv3",
+      "subscale": "INV",
+      "reverse": true,
+      "text": "I still paid attention to the real environment.",
+      "left": "strongly disagree",
+      "right": "strongly agree"
+    },
+    {
+      "id": "real4",
+      "subscale": "REAL",
+      "reverse": false,
+      "text": "The virtual world seemed more realistic than the real world.",
+      "left": "strongly disagree",
+      "right": "strongly agree"
+    },
+    {
+      "id": "sp2",
+      "subscale": "SP",
+      "reverse": true,
+      "text": "I felt like I was just perceiving pictures.",
+      "left": "strongly disagree",
+      "right": "strongly agree"
+    },
+    {
+      "id": "inv4",
+      "subscale": "INV",
+      "reverse": true,
+      "text": "I was completely captivated by the virtual world.",
+      "left": "strongly disagree",
+      "right": "strongly agree"
+    }
+  ],
+  "output_format": {
+    "json": "P{pid}_{headset}_{order}_IPQ.json",
+    "csv": "P{pid}_{headset}_{order}_IPQ.csv"
   },
-  "psychometric_properties": {
-    "internal_consistency": "Cronbach alpha typically 0.70-0.85 per subscale",
-    "factor_structure": "3-factor solution confirmed in original study (N=246)",
-    "languages_available": ["English", "German", "Spanish", "French", "Chinese"]
-  },
-  "theoretical_grounding": "Zahorik & Jenison (1998) presence-as-being-in-the-world; Schubert et al. factor analysis of 75-item pool"
+  "notes": [
+    "Higher subscale scores (closer to 6) indicate stronger presence.",
+    "GP (General Presence) is a single global item and not averaged with subscales.",
+    "SP and INV together capture the attentional/spatial allocation aspect of presence.",
+    "REAL captures plausibility and perceptual fidelity of the virtual environment.",
+    "Validated across multiple VR platforms; widely used as gold-standard self-report measure."
+  ]
 }
