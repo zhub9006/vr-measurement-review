@@ -1,0 +1,73 @@
+{
+  "_meta": {
+    "instrument": "ITC Sense of Presence Inventory (ITC-SOPI)",
+    "source_repo": "zhub9006/vr-measurement-review",
+    "canonical_reference": "Lessiter J., Freeman J., Keogh E., Davidoff J. (2001). A cross-media presence questionnaire: The ITC-Sense of Presence Inventory. Presence: Teleoperators and Virtual Environments, 10(3), 282-297.",
+    "scale_points": 5,
+    "scale_anchors": { "1": "strongly disagree", "5": "strongly agree" },
+    "total_items": 44,
+    "subscales": ["PHYS", "ENG", "ECO", "NEG"]
+  },
+  "subscales": {
+    "PHYS": {
+      "name": "Physical Space",
+      "description": "Sense of being physically located in the presented environment",
+      "item_count": 14,
+      "sample_items": [
+        {"id": "PHYS1", "text": "I had a sense of being in the scenes displayed.", "reverse": false},
+        {"id": "PHYS2", "text": "It felt as though I was actually there in the environment.", "reverse": false},
+        {"id": "PHYS3", "text": "I felt I could reach out and touch things in the environment.", "reverse": false},
+        {"id": "PHYS4", "text": "My body felt like it was actually in the displayed environment.", "reverse": false}
+      ],
+      "scoring": "Sum all items (after reversing negatively-worded items), then divide by item count. Range 1-5."
+    },
+    "ENG": {
+      "name": "Engagement",
+      "description": "Degree of attentional and emotional involvement",
+      "item_count": 11,
+      "sample_items": [
+        {"id": "ENG1", "text": "I was so involved in the presented world that I lost track of time.", "reverse": false},
+        {"id": "ENG2", "text": "The experience was involving.", "reverse": false},
+        {"id": "ENG3", "text": "I found the experience enjoyable.", "reverse": false}
+      ],
+      "scoring": "Mean of items. Range 1-5."
+    },
+    "ECO": {
+      "name": "Ecological Validity / Naturalness",
+      "description": "How natural and consistent the environment felt with real-world expectations",
+      "item_count": 12,
+      "sample_items": [
+        {"id": "ECO1", "text": "The way things moved was consistent with how they would move in real life.", "reverse": false},
+        {"id": "ECO2", "text": "The environment looked natural.", "reverse": false},
+        {"id": "ECO3", "text": "The sounds were consistent with how they would be in real life.", "reverse": false}
+      ],
+      "scoring": "Mean of items. Range 1-5."
+    },
+    "NEG": {
+      "name": "Negative Effects",
+      "description": "Discomfort, disorientation, and negative reactions during/after exposure",
+      "item_count": 7,
+      "sample_items": [
+        {"id": "NEG1", "text": "I felt dizzy.", "reverse": false},
+        {"id": "NEG2", "text": "I felt nauseous.", "reverse": false},
+        {"id": "NEG3", "text": "I experienced disorientation.", "reverse": false}
+      ],
+      "scoring": "Mean of items. Higher scores indicate more negative effects. Range 1-5.",
+      "note": "This subscale is typically analyzed separately and not included in an overall presence composite."
+    }
+  },
+  "composite_scoring": {
+    "presence_composite": "Mean of PHYS, ENG, and ECO subscale means (exclude NEG). Range 1-5.",
+    "interpretation": {
+      "1.0-2.4": "Low presence / engagement",
+      "2.5-3.4": "Moderate",
+      "3.5-5.0": "High presence / engagement"
+    }
+  },
+  "administration": {
+    "timing": "Administered immediately after media or VR exposure",
+    "format": "Paper or digital 5-point Likert; cross-media validated (TV, film, VR, desktop)",
+    "estimated_duration_minutes": 8,
+    "languages_validated": ["English", "German", "Dutch"]
+  }
+}
