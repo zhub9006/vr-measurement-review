@@ -1,0 +1,85 @@
+{
+  "instrument": "iGroup Presence Questionnaire (IPQ)",
+  "version": "1.0",
+  "source": "Schubert, T., Friedmann, F., & Regenbrecht, H. (2001). The experience of presence: Factor analytic insights. Presence: Teleoperators and Virtual Environments, 10(3), 266-281.",
+  "repository_reference": "https://github.com/zhub9006/vr-measurement-review",
+  "description": "The IPQ is a self-report questionnaire measuring the sense of presence in virtual environments. It yields a General Presence score and three subscale scores.",
+  "response_scale": {
+    "type": "Likert",
+    "points": 7,
+    "anchors": {
+      "1": "fully disagree / not at all",
+      "7": "fully agree / very much"
+    },
+    "note": "Some items use different bipolar anchor pairs; see item-level notes."
+  },
+  "subscales": {
+    "SP": {
+      "label": "Spatial Presence",
+      "description": "The sense of being physically located inside the virtual environment.",
+      "items": ["SP1", "SP2", "SP3", "SP4", "SP5"],
+      "scoring": "Mean of item scores (after reversing any reverse-coded items). Higher = stronger spatial presence.",
+      "possible_range": [1, 7]
+    },
+    "INV": {
+      "label": "Involvement",
+      "description": "The degree to which attention is captured and the user is involved with the VE.",
+      "items": ["INV1", "INV2", "INV3", "INV4"],
+      "scoring": "Mean of item scores. Higher = greater involvement.",
+      "possible_range": [1, 7]
+    },
+    "REAL": {
+      "label": "Experienced Realism",
+      "description": "The degree to which the virtual environment is perceived as realistic.",
+      "items": ["REAL1", "REAL2", "REAL3", "REAL4"],
+      "scoring": "Mean of item scores. Higher = greater perceived realism.",
+      "possible_range": [1, 7]
+    }
+  },
+  "general_presence_item": {
+    "id": "G",
+    "text": "In the computer generated world I had a sense of 'being there'.",
+    "note": "Single global item used as a standalone general presence indicator or for validity checks."
+  },
+  "items": [
+    { "id": "SP1", "subscale": "SP", "text": "I had a sense of 'being there' in the virtual environment.", "anchor_low": "not at all", "anchor_high": "very much", "reverse_coded": false },
+    { "id": "SP2", "subscale": "SP", "text": "Somehow I felt that the virtual world surrounded me.", "anchor_low": "fully disagree", "anchor_high": "fully agree", "reverse_coded": false },
+    { "id": "SP3", "subscale": "SP", "text": "I felt present in the virtual space.", "anchor_low": "fully disagree", "anchor_high": "fully agree", "reverse_coded": false },
+    { "id": "SP4", "subscale": "SP", "text": "It seemed as if I actually took part in the action of the virtual environment.", "anchor_low": "fully disagree", "anchor_high": "fully agree", "reverse_coded": false },
+    { "id": "SP5", "subscale": "SP", "text": "I had the impression of moving through the virtual environment.", "anchor_low": "fully disagree", "anchor_high": "fully agree", "reverse_coded": false },
+    { "id": "INV1", "subscale": "INV", "text": "I noticed the virtual environment through more than one sense.", "anchor_low": "fully disagree", "anchor_high": "fully agree", "reverse_coded": false },
+    { "id": "INV2", "subscale": "INV", "text": "I had the impression that the virtual world was real.", "anchor_low": "fully disagree", "anchor_high": "fully agree", "reverse_coded": false },
+    { "id": "INV3", "subscale": "INV", "text": "The virtual environment seemed consistent.", "anchor_low": "fully disagree", "anchor_high": "fully agree", "reverse_coded": false },
+    { "id": "INV4", "subscale": "INV", "text": "How aware were you of the real world while navigating in the virtual world?", "anchor_low": "not aware at all", "anchor_high": "very aware", "reverse_coded": true, "note": "Reverse-coded: high real-world awareness implies low presence/involvement." },
+    { "id": "REAL1", "subscale": "REAL", "text": "How real did the virtual world seem to you?", "anchor_low": "completely artificial", "anchor_high": "completely real", "reverse_coded": false },
+    { "id": "REAL2", "subscale": "REAL", "text": "How much did your experience in the virtual environment seem consistent with your real-world experience?", "anchor_low": "not consistent", "anchor_high": "very consistent", "reverse_coded": false },
+    { "id": "REAL3", "subscale": "REAL", "text": "The virtual environment seemed real to me.", "anchor_low": "fully disagree", "anchor_high": "fully agree", "reverse_coded": false },
+    { "id": "REAL4", "subscale": "REAL", "text": "The virtual world seemed more realistic than the real world.", "anchor_low": "fully disagree", "anchor_high": "fully agree", "reverse_coded": false }
+  ],
+  "composite_scoring": {
+    "method": "subscale_means",
+    "formula": "Each subscale score = mean of its items (reverse-coded items recoded first as: recoded = 8 - raw). Overall IPQ profile is reported as three subscale means plus the single G item.",
+    "reporting": "Report SP, INV, REAL means separately; do not collapse to a single composite unless explicitly justified.",
+    "benchmarks": {
+      "note": "Normative data available at http://www.igroup.org/pq/ipq/data.php",
+      "typical_SP_mean": 3.9,
+      "typical_INV_mean": 3.7,
+      "typical_REAL_mean": 2.8
+    }
+  },
+  "psychometric_properties": {
+    "internal_consistency": {
+      "SP_cronbach_alpha": 0.88,
+      "INV_cronbach_alpha": 0.70,
+      "REAL_cronbach_alpha": 0.66
+    },
+    "validity": "Convergent validity established against Slater-Usoh-Steed (SUS) scale. Discriminant validity against cybersickness (SSQ).",
+    "factor_structure": "Three-factor CFA; SP = physical-space presence, INV = attentional involvement, REAL = plausibility/realism."
+  },
+  "administration": {
+    "timing": "Post-exposure (retrospective self-report).",
+    "duration_minutes": 3,
+    "format": "Paper or digital single-page form.",
+    "languages_available": ["English", "German", "Spanish", "French", "Chinese", "Japanese"]
+  }
+}
