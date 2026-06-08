@@ -1,0 +1,134 @@
+# EEG Signal Processing Pipeline Configuration for VR Presence Experiments
+# Based on: Kaur & Singh (2021), Aspinall et al. (2015), Aftanas & Golocheikine (2001)
+# Compatible with: MNE-Python, EEGLab, BrainFlow
+
+pipeline:
+  name: eeg_vr_presence_pipeline
+  version: "1.2"
+  description: >
+    EEG preprocessing and feature extraction pipeline for measuring
+    neural correlates of presence and immersion in VR experiments.
+
+# ─── Hardware & Acquisition ───────────────────────────────────────────────────
+acquisition:
+  recommended_systems:
+    - name: OpenBCI Cyton (8-ch)
+      sampling_rate_hz: 250
+      use_case: Low-cost, research-grade, wireless
+    - name: BrainProducts actiCHamp (64-ch)
+      sampling_rate_hz: 1000
+      use_case: High-density, lab-grade
+    - name: Emotiv EPOC X (14-ch)
+      sampling_rate_hz: 256
+      use_case: Consumer-grade, portable for field VR
+  reference_electrode: "average" # or FCz linked-mastoid
+  ground_electrode: "AFz"
+  impedance_threshold_kohm: 10
+
+# ─── Channel Montage ─────────────────────────────────────────────────────────
+montage:
+  standard: "10-20"
+  vr_presence_roi_channels:
+    frontal:  ["Fp1", "Fp2", "F3", "F4", "Fz", "F7", "F8"]
+    central:  ["C3", "C4", "Cz"]
+    parietal: ["P3", "P4", "Pz", "P7", "P8"]
+    occipital:["O1", "O2", "Oz"]
+    temporal: ["T7", "T8"]
+
+# ─── Preprocessing Steps ─────────────────────────────────────────────────────
+preprocessing:
+  steps:
+    - step: 1
+      name: bandpass_filter
+      method: FIR (zero-phase)
+      low_cutoff_hz: 1.0
+      high_cutoff_hz: 40.0
+      order: 1001
+      rationale: Remove DC drift and high-freq muscle noise
+
+    - step: 2
+      name: notch_filter
+      frequencies_hz: [50, 60]  # 50 Hz EU/Asia; 60 Hz USA
+      method: IIR notch
+      rationale: Remove power-line interference
+
+    - step: 3
+      name: re_reference
+      method: average_reference
+      rationale: Minimize volume-conduction artefacts
+
+    - step: 4
+      name: artifact_rejection_ICA
+      algorithm: FastICA
+      n_components: "rank of data"
+      auto_label_method: ICLabel
+      remove_components: ["eye_blink", "muscle", "heart", "line_noise"]
+      variance_threshold_pct: 95
+
+    - step: 5
+      name: epoch_extraction
+      epoch_duration_sec: 4.0
+      baseline_correction_ms: [-200, 0]
+      reject_peak_to_peak_uV: 100
+
+# ─── Frequency Band Definitions ──────────────────────────────────────────────
+frequency_bands:
+  delta: { low_hz: 1,  high_hz: 4,  vr_relevance: "Drowsiness, deep engagement" }
+  theta: { low_hz: 4,  high_hz: 8,  vr_relevance: "Working memory load, spatial navigation, presence" }
+  alpha: { low_hz: 8,  high_hz: 13, vr_relevance: "Relaxation, visual cortex suppression (alpha-ERD = engagement)" }
+  beta:  { low_hz: 13, high_hz: 30, vr_relevance: "Active cognition, motor preparation, arousal" }
+  gamma: { low_hz: 30, high_hz: 40, vr_relevance: "High-level feature binding, intense immersion" }
+
+# ─── Feature Extraction ──────────────────────────────────────────────────────
+feature_extraction:
+  spectral_features:
+    method: Welch PSD
+    window_sec: 2.0
+    overlap_pct: 50
+    features:
+      - name: theta_frontal_power
+        channels: ["Fz", "F3", "F4"]
+        band: theta
+        unit: uV^2/Hz
+        presence_correlation: positive  # higher theta -> higher presence
+      - name: alpha_ERD_occipital
+        channels: ["O1", "O2", "Oz"]
+        band: alpha
+        unit: percent_change_from_baseline
+        presence_correlation: negative  # alpha suppression = visual engagement
+      - name: alpha_frontal_asymmetry
+        formula: "ln(F4_alpha) - ln(F3_alpha)"
+        unit: ln_uV^2
+        presence_correlation: "positive -> approach motivation/immersion"
+      - name: beta_central_power
+        channels: ["C3", "C4", "Cz"]
+        band: beta
+        unit: uV^2/Hz
+        presence_correlation: positive  # motor/cognitive engagement
+
+  connectivity_features:
+    - name: theta_coherence_frontal_parietal
+      channels_A: ["Fz"]
+      channels_B: ["Pz"]
+      band: theta
+      method: magnitude_squared_coherence
+      presence_correlation: positive
+
+# ─── Presence Index Calculation ──────────────────────────────────────────────
+presence_index:
+  name: Neural Presence Index (NPI)
+  formula: >
+    NPI = w1*(theta_frontal_norm) + w2*(1 - alpha_occipital_norm)
+          + w3*(beta_central_norm) + w4*(theta_fp_coherence_norm)
+  weights: { w1: 0.35, w2: 0.30, w3: 0.20, w4: 0.15 }
+  normalization: z-score per participant (within-session)
+  range: "z-score; higher = greater neural presence signature"
+  validation_reference: "Kaur & Singh (2021) Sensors 21(4):1461"
+
+# ─── Output ──────────────────────────────────────────────────────────────────
+output:
+  formats: ["csv", "hdf5", "fif"]
+  epoch_level_features: true
+  trial_level_aggregation: mean
+  export_raw_psd: true
+  sync_with_questionnaire: true  # merge NPI with IPQ/ITC-SOPI scores

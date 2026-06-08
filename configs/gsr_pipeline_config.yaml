@@ -1,0 +1,155 @@
+# GSR / EDA Signal Processing Pipeline for VR Presence & Arousal Experiments
+# Based on: Boucsein (2012) Electrodermal Activity; Greco et al. (2016) IEEE TAFFC
+# Compatible with: NeuroKit2, BioSPPy, Ledalab, cvxEDA
+
+pipeline:
+  name: gsr_eda_vr_pipeline
+  version: "1.1"
+  description: >
+    GSR/EDA preprocessing, decomposition, and feature extraction pipeline
+    for measuring psychophysiological arousal and presence correlates in VR.
+
+# ─── Hardware & Acquisition ───────────────────────────────────────────────────
+acquisition:
+  signal_name: Electrodermal Activity (EDA) / Galvanic Skin Response (GSR)
+  recommended_devices:
+    - name: Shimmer3 GSR+
+      sampling_rate_hz: 128
+      sensor_type: exosomatic (constant voltage)
+      use_case: Wireless, wearable, VR-compatible
+    - name: Biopac MP160 + EDA100C
+      sampling_rate_hz: 2000
+      sensor_type: exosomatic
+      use_case: Lab-grade reference standard
+    - name: Empatica E4
+      sampling_rate_hz: 4
+      sensor_type: exosomatic
+      use_case: Consumer wearable; low temporal resolution
+  electrode_placement:
+    preferred: "Distal phalanx of index and middle fingers (non-dominant hand)"
+    alternative: "Thenar/hypothenar eminence of palm"
+    electrode_type: Ag/AgCl hydrogel
+    contact_medium: isotonic electrolyte gel
+  measurement_unit: microsiemens (uS)
+  signal_range_uS: { min: 0.5, max: 20.0 }
+
+# ─── Preprocessing ───────────────────────────────────────────────────────────
+preprocessing:
+  steps:
+    - step: 1
+      name: resample
+      target_hz: 100
+      method: scipy.signal.resample_poly
+      rationale: Standardize across devices; EDA bandwidth < 5 Hz
+
+    - step: 2
+      name: lowpass_filter
+      cutoff_hz: 5.0
+      filter_type: Butterworth
+      order: 4
+      rationale: Remove high-frequency noise; EDA signal bandwidth ~0-3 Hz
+
+    - step: 3
+      name: artifact_removal
+      method: amplitude_threshold
+      max_uS: 60
+      min_uS: 0.01
+      spike_detection: gradient_threshold
+      gradient_threshold_uS_per_sample: 10
+      interpolation: cubic_spline
+
+    - step: 4
+      name: signal_decomposition
+      method: cvxEDA  # or Ledalab continuous decomposition analysis
+      components:
+        SCL:
+          name: Skin Conductance Level
+          description: Tonic slow-varying baseline; reflects sustained arousal
+          timescale: seconds to minutes
+        SCR:
+          name: Skin Conductance Response
+          description: Phasic fast-varying peaks; reflects discrete arousal events
+          timescale: 1-5 seconds post-stimulus
+
+# ─── Feature Extraction ──────────────────────────────────────────────────────
+feature_extraction:
+  tonic_features:
+    - name: mean_SCL
+      unit: uS
+      window: entire_trial
+      vr_relevance: "Baseline arousal level; higher SCL = sustained stress/engagement"
+    - name: SCL_slope
+      unit: uS/min
+      window: entire_trial
+      vr_relevance: "Increasing slope = building immersion/arousal over time"
+
+  phasic_features:
+    scr_detection:
+      method: local_maxima_on_SCR_component
+      min_amplitude_uS: 0.05
+      min_rise_time_sec: 0.5
+      max_rise_time_sec: 5.0
+      recovery_threshold_pct: 50
+    features:
+      - name: SCR_frequency
+        unit: responses/minute
+        vr_relevance: "NS-SCR rate; higher = greater non-specific arousal"
+      - name: SCR_amplitude_mean
+        unit: uS
+        window: per_stimulus_epoch
+        vr_relevance: "Peak SCR to VR events (e.g., jump scares, novel scenes)"
+      - name: SCR_latency
+        unit: seconds
+        reference: stimulus_onset
+        expected_range_sec: [1.0, 4.0]
+        vr_relevance: "Latency reflects attentional allocation speed"
+      - name: AUC_phasic
+        unit: uS*sec
+        window: per_epoch
+        vr_relevance: "Area under SCR curve; total phasic arousal energy"
+
+# ─── Arousal-Presence Index ───────────────────────────────────────────────────
+arousal_presence_index:
+  name: GSR Arousal-Presence Score (GAPS)
+  components:
+    - feature: mean_SCL
+      weight: 0.30
+      normalization: z-score
+    - feature: SCR_frequency
+      weight: 0.35
+      normalization: z-score
+    - feature: SCR_amplitude_mean
+      weight: 0.25
+      normalization: z-score
+    - feature: AUC_phasic
+      weight: 0.10
+      normalization: z-score
+  formula: "GAPS = sum(weight_i * z_score_i)"
+  range: "z-score composite; higher = greater physiological arousal"
+  caveat: >
+    GAPS reflects arousal, not presence per se. High arousal may reflect
+    fear/discomfort rather than positive immersion. Always interpret
+    alongside valence measures (HR, facial EMG) and questionnaire scores.
+
+# ─── VR-Specific Considerations ──────────────────────────────────────────────
+vr_specific:
+  motion_artifact_mitigation:
+    - Use wireless sensors to avoid cable pull artefacts
+    - Flag epochs with HMD accelerometer > 2g as potentially contaminated
+    - Require 5-min acclimatisation period before baseline recording
+  baseline_recording:
+    duration_sec: 120
+    condition: seated, eyes open, no VR stimulus
+    use: z-score normalization reference
+  event_markers:
+    sync_method: TTL pulse or LSL stream timestamp
+    events_to_mark: ["scene_start", "scene_end", "interaction_event", "questionnaire_start"]
+
+# ─── Output ──────────────────────────────────────────────────────────────────
+output:
+  formats: ["csv", "hdf5"]
+  features_per_epoch: true
+  trial_aggregation: mean
+  sync_with_eeg: true
+  sync_with_questionnaire: true
+  export_raw_decomposed: true
