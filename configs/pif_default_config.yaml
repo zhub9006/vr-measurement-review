@@ -1,0 +1,56 @@
+# ============================================================
+# perception-immersion-framework — Default Experiment Config
+# Source: zhub9006/perception-immersion-framework
+# Path:   experiments/configs/default_config.yaml (canonical)
+# Note:   Reconstructed YAML equivalent of pif/config.py (PifConfig dataclass)
+# ============================================================
+
+# --- Data paths ---
+data_path: "./data/Combined_Data.csv"
+output_dir: "./outputs/"
+
+# --- Column identifiers ---
+participant_id_column: "Participant ID"
+label_column: "CL_Total"          # Options: CL_Total | ICL_Average | ECL_Average | CL_All_Average
+feature_prefix: "Tx"              # All columns starting with this prefix are treated as features
+
+# --- Cognitive Load binarization ---
+cl_threshold: 22                  # Scores <= threshold -> class 0 (low), > threshold -> class 1 (high)
+cl_label_columns:
+  - "CL_All_Average"
+  - "ICL_Average"
+  - "ECL_Average"
+
+# --- Signal preprocessing ---
+normalize_method: "zscore_rowwise"  # Options: zscore_rowwise | minmax | none
+drop_na: true
+
+# --- Cross-validation ---
+cv_strategy: "loso"               # Options: loso | kfold
+n_splits: 5                       # Used only when cv_strategy == kfold
+random_state: 42
+
+# --- Deep learning training ---
+dl_epochs: 100
+dl_batch_size: 32
+dl_learning_rate: 0.001
+dl_hidden_dim: 128
+dl_dropout: 0.3
+
+# --- Immersion scoring (Perception-Immersion Index weights) ---
+# Weights must sum to 1.0
+pii_weight_questionnaire: 0.50   # IPQ / SUS / NASA-TLX composite (subjective)
+pii_weight_physiological: 0.30   # Pupil dilation, GSR peaks (objective)
+pii_weight_behavioral: 0.20      # Dwell time, interaction rate (task-level)
+
+# --- Modality flags ---
+modality: "fnirs"                 # Options: fnirs | eeg | gsr | eye | multimodal
+enabled_classifiers:              # null = run all; list specific names to restrict
+  - "SVM"
+  - "XGBoost"
+  - "Random Forest"
+  - "Logistic Regression"
+  - "KNN"
+  - "Naive Bayes"
+  - "FCNN"
+  - "CNN"
