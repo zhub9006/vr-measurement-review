@@ -1,0 +1,165 @@
+# Physiological Signal Processing Pipeline Configuration
+# VR Experiment: Presence & Immersion Study
+# Format: YAML
+# Compatible with: MNE-Python (EEG), NeuroKit2 (GSR/HR), BioSPPy (multi-modal)
+
+experiment:
+  name: "VR Psychophysiology Study"
+  version: "1.0"
+  description: "Simultaneous EEG, GSR, and HR recording during VR exposure"
+  sampling_rates:
+    eeg_hz: 256
+    gsr_hz: 128
+    ecg_hz: 256
+    trigger_channel: "STI 014"
+
+participant:
+  id_format: "sub-{id:03d}"
+  age_range: [18, 60]
+  exclusions:
+    - epilepsy_history
+    - cardiac_conditions
+    - motion_sickness_severe
+
+eeg:
+  system: "OpenBCI or BrainProducts or Emotiv"
+  channels: 32
+  reference: "average"
+  ground: "AFz"
+  cap_layout: "standard_1020"
+  preprocessing:
+    bandpass_filter:
+      low_hz: 1.0
+      high_hz: 40.0
+      filter_type: "FIR"
+      order: 401
+    notch_filter:
+      freqs_hz: [50, 60]   # 50 Hz for EU, 60 Hz for US
+      width_hz: 2
+    artifact_rejection:
+      ica:
+        n_components: 20
+        method: "fastica"
+        exclude_eog: true
+        exclude_emg: true
+      autoreject:
+        threshold_uV: 100
+        interpolate_bad_channels: true
+    epoching:
+      tmin_s: -0.5
+      tmax_s: 2.0
+      baseline: [-0.5, 0]
+      reject_peak_to_peak_uV: 150
+  features:
+    frequency_bands:
+      delta: [1, 4]
+      theta: [4, 8]
+      alpha: [8, 13]
+      beta: [13, 30]
+      gamma: [30, 40]
+    roi_channels:
+      frontal:   ["Fp1", "Fp2", "F3", "F4", "F7", "F8", "Fz"]
+      parietal:  ["P3", "P4", "P7", "P8", "Pz"]
+      occipital: ["O1", "O2", "Oz"]
+      temporal:  ["T7", "T8", "TP9", "TP10"]
+    erp_components:
+      - name: "N200"
+        window_ms: [150, 275]
+        polarity: "negative"
+      - name: "P300"
+        window_ms: [250, 500]
+        polarity: "positive"
+      - name: "alpha_suppression"
+        description: "Event-related desynchronization in alpha band; associated with engagement"
+
+gsr:
+  sensor: "Shimmer3 GSR+ or Biopac MP160"
+  units: "microsiemens"
+  preprocessing:
+    lowpass_filter_hz: 2.0
+    downsample_to_hz: 10
+    artifact_removal: "butterworth_lowpass"
+  decomposition:
+    method: "cvxEDA or neurokit2"
+    components:
+      tonic_scl:
+        label: "Skin Conductance Level (SCL)"
+        description: "Slow-varying baseline; reflects general arousal state"
+        window_s: 30
+      phasic_scr:
+        label: "Skin Conductance Responses (SCR)"
+        description: "Fast event-locked bursts; reflect sympathetic nervous system responses"
+        min_amplitude_uS: 0.05
+        min_rise_time_s: 0.5
+        max_recovery_time_s: 10
+  features:
+    - SCL_mean
+    - SCL_std
+    - SCR_count_per_minute
+    - SCR_mean_amplitude
+    - SCR_latency_mean_ms
+    - NS_SCR_frequency   # Non-specific SCRs (not event-locked)
+
+heart_rate:
+  sensor: "ECG (3-lead) or PPG (fingertip/wrist)"
+  ecg_preprocessing:
+    bandpass_filter:
+      low_hz: 0.5
+      high_hz: 45.0
+    r_peak_detection: "Pan-Tompkins or Hamilton"
+  hrv_analysis:
+    window_s: 60
+    overlap_s: 30
+    features_time_domain:
+      - RMSSD     # Root mean square of successive differences; parasympathetic
+      - SDNN      # Standard deviation of NN intervals; overall HRV
+      - mean_HR   # Beats per minute
+      - pNN50     # % of successive NN intervals > 50ms
+    features_frequency_domain:
+      LF_band_hz: [0.04, 0.15]   # Low frequency; sympathovagal balance
+      HF_band_hz: [0.15, 0.40]   # High frequency; parasympathetic
+      LF_HF_ratio: true           # Sympathovagal balance index
+    features_nonlinear:
+      - SD1        # Poincare plot short-term variability
+      - SD2        # Poincare plot long-term variability
+      - SampEn     # Sample entropy; complexity
+
+fnirs:
+  note: "Optional channel; emerging in VR-presence research"
+  channels: 20
+  wavelengths_nm: [690, 850]
+  chromophores: ["HbO", "HbR"]
+  preprocessing:
+    motion_correction: "CBSI or TDDR"
+    bandpass: [0.01, 0.1]
+  features:
+    - HbO_mean
+    - HbR_mean
+    - HbO_peak_amplitude
+    - laterality_index
+
+markers:
+  vr_events:
+    - name: "scene_start"
+      trigger_code: 1
+      description: "VR scene onset"
+    - name: "scene_end"
+      trigger_code: 2
+      description: "VR scene offset"
+    - name: "questionnaire_prompt"
+      trigger_code: 10
+      description: "Presence questionnaire presented"
+    - name: "startle_probe"
+      trigger_code: 20
+      description: "Unexpected event in VR (presence manipulation check)"
+    - name: "break_start"
+      trigger_code: 90
+      description: "Rest period start"
+
+output:
+  format: "HDF5 or EDF+"
+  directory: "./data/processed/"
+  naming: "{subject_id}_task-vr_{modality}_proc.{ext}"
+  export_features: true
+  feature_file_format: "CSV"
+  figures: true

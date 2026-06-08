@@ -1,0 +1,69 @@
+{
+  "instrument": "Simulator Sickness Questionnaire (SSQ)",
+  "version": "Kennedy_1993",
+  "citation": "Kennedy, R. S., Lane, N. E., Berbaum, K. S., & Lilienthal, M. G. (1993). Simulator sickness questionnaire: An enhanced method for quantifying simulator sickness. The International Journal of Aviation Psychology, 3(3), 203-220.",
+  "intended_use": "Measuring cybersickness / simulator sickness before and after VR exposure",
+  "administration": "Pre- and post-exposure (difference score = symptom increase)",
+  "total_items": 16,
+  "response_scale": {
+    "type": "Ordinal",
+    "points": 4,
+    "anchors": {
+      "0": "None",
+      "1": "Slight",
+      "2": "Moderate",
+      "3": "Severe"
+    }
+  },
+  "subscales": {
+    "nausea": {
+      "label": "Nausea (N)",
+      "items": [
+        "General discomfort",
+        "Increased salivation",
+        "Sweating",
+        "Nausea",
+        "Difficulty concentrating",
+        "Stomach awareness",
+        "Burping"
+      ],
+      "weight": 9.54
+    },
+    "oculomotor": {
+      "label": "Oculomotor (O)",
+      "items": [
+        "General discomfort",
+        "Fatigue",
+        "Headache",
+        "Eyestrain",
+        "Difficulty focusing",
+        "Difficulty concentrating",
+        "Fullness of head"
+      ],
+      "weight": 7.58
+    },
+    "disorientation": {
+      "label": "Disorientation (D)",
+      "items": [
+        "Difficulty focusing",
+        "Nausea",
+        "Fullness of head",
+        "Blurred vision",
+        "Dizzy (eyes open)",
+        "Dizzy (eyes closed)",
+        "Vertigo"
+      ],
+      "weight": 13.92
+    }
+  },
+  "scoring_instructions": {
+    "method": "Weighted sum formula per subscale",
+    "nausea_score": "Sum of N-items * 9.54",
+    "oculomotor_score": "Sum of O-items * 7.58",
+    "disorientation_score": "Sum of D-items * 13.92",
+    "total_score": "(N + O + D) * 3.74",
+    "note": "Several items load onto multiple subscales; raw item ratings contribute proportionally",
+    "clinical_threshold": "TSS > 20 generally considered meaningful sickness; TSS > 45 = strong sickness"
+  },
+  "note": "SSQ is a negative correlate of presence quality; higher sickness often reduces presence scores"
+}
