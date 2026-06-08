@@ -1,0 +1,129 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Igroup Presence Questionnaire (IPQ)",
+  "description": "JSON schema for the IPQ — 14-item Likert self-report scale measuring sense of presence in virtual environments. Based on Schubert, Friedmann & Regenbrecht (2001).",
+  "version": "1.0",
+  "citation": "Schubert, T., Friedmann, F., & Regenbrecht, H. (2001). The experience of presence: Factor analytic insights. Presence, 10(3), 266-281.",
+  "url": "http://www.igroup.org/pq/ipq/",
+  "scale": {
+    "type": "Likert",
+    "anchors": {
+      "min": -3,
+      "max": 3,
+      "labels": {
+        "-3": "fully disagree",
+        "0": "neutral",
+        "3": "fully agree"
+      }
+    },
+    "note": "Some items use 0-6 in digital implementations; always check anchor labelling in your tool."
+  },
+  "subscales": {
+    "SP": {
+      "name": "Spatial Presence",
+      "description": "The sense of being physically located inside the virtual environment",
+      "items": ["SP1","SP2","SP3","SP4","SP5"],
+      "scoring": "mean of item scores"
+    },
+    "INV": {
+      "name": "Involvement",
+      "description": "Attention devoted to the VE and involvement with it",
+      "items": ["INV1","INV2","INV3","INV4"],
+      "scoring": "mean of item scores"
+    },
+    "REAL": {
+      "name": "Experienced Realism",
+      "description": "Subjective experience of realism in the VE",
+      "items": ["REAL1","REAL2","REAL3","REAL4"],
+      "scoring": "mean of item scores"
+    },
+    "G": {
+      "name": "General Presence",
+      "description": "Single-item overall presence rating (not in factor solution but often reported)",
+      "items": ["G1"],
+      "scoring": "raw item score"
+    }
+  },
+  "items": {
+    "G1": {
+      "subscale": "G",
+      "text": "Somehow I felt that the virtual world surrounded me.",
+      "reversed": false
+    },
+    "SP1": {
+      "subscale": "SP",
+      "text": "I had a sense of acting in the virtual space.",
+      "reversed": false
+    },
+    "SP2": {
+      "subscale": "SP",
+      "text": "I felt present in the virtual space.",
+      "reversed": false
+    },
+    "SP3": {
+      "subscale": "SP",
+      "text": "I did not feel present in the virtual space.",
+      "reversed": true
+    },
+    "SP4": {
+      "subscale": "SP",
+      "text": "I had a sense of being there.",
+      "reversed": false
+    },
+    "SP5": {
+      "subscale": "SP",
+      "text": "The virtual space felt real to me.",
+      "reversed": false
+    },
+    "INV1": {
+      "subscale": "INV",
+      "text": "I noticed the virtual environment.",
+      "reversed": false
+    },
+    "INV2": {
+      "subscale": "INV",
+      "text": "I was not aware of my real environment.",
+      "reversed": false
+    },
+    "INV3": {
+      "subscale": "INV",
+      "text": "I paid attention to the virtual environment.",
+      "reversed": false
+    },
+    "INV4": {
+      "subscale": "INV",
+      "text": "My attention was drawn to the virtual environment.",
+      "reversed": false
+    },
+    "REAL1": {
+      "subscale": "REAL",
+      "text": "The virtual world seemed real to me.",
+      "reversed": false
+    },
+    "REAL2": {
+      "subscale": "REAL",
+      "text": "The virtual world looked real.",
+      "reversed": false
+    },
+    "REAL3": {
+      "subscale": "REAL",
+      "text": "The objects in the virtual space seemed real.",
+      "reversed": false
+    },
+    "REAL4": {
+      "subscale": "REAL",
+      "text": "The virtual environment did not seem realistic.",
+      "reversed": true
+    }
+  },
+  "composite_scoring": {
+    "method": "mean_of_subscale_means",
+    "formula": "IPQ_total = mean(SP_mean, INV_mean, REAL_mean)",
+    "reverse_coding": "Reversed items must be recoded before subscale averaging: recoded = max_anchor - raw + min_anchor"
+  },
+  "psychometric_properties": {
+    "internal_consistency": "Cronbach alpha SP=0.80, INV=0.71, REAL=0.75 (original validation)",
+    "validated_in": "Desktop VR, CAVE, HMD environments",
+    "languages_available": ["English","German","Italian","Spanish","French","Dutch","Greek"]
+  }
+}
