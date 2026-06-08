@@ -1,0 +1,81 @@
+{
+  "instrument": "igroup Presence Questionnaire (IPQ)",
+  "version": "1.0",
+  "citation": "Schubert, T., Friedmann, F., & Regenbrecht, H. (2001). The experience of presence: Factor analytic insights. Presence: Teleoperators and Virtual Environments, 10(3), 266-281.",
+  "url": "http://www.igroup.org/pq/ipq/index.php",
+  "scale_type": "Likert",
+  "response_range": { "min": 0, "max": 6 },
+  "total_items": 14,
+  "subscales": {
+    "SP": {
+      "label": "Spatial Presence",
+      "description": "Sense of being physically located inside the virtual environment.",
+      "items": [
+        { "id": "SP1", "text": "I had a sense of acting in the virtual space.", "reverse": false },
+        { "id": "SP2", "text": "I felt like I was actually there in the virtual environment.", "reverse": false },
+        { "id": "SP3", "text": "I did not feel present in the virtual space.", "reverse": true },
+        { "id": "SP4", "text": "I had a sense of being there.", "reverse": false },
+        { "id": "SP5", "text": "I felt like the virtual environment surrounded me.", "reverse": false }
+      ],
+      "scoring": "Mean of items after reversing reverse-coded items. Range 0-6.",
+      "weight": 1.0
+    },
+    "INV": {
+      "label": "Involvement",
+      "description": "Attention devoted to and involvement with the VE.",
+      "items": [
+        { "id": "INV1", "text": "I was not aware of my real environment.", "reverse": false },
+        { "id": "INV2", "text": "I still paid attention to the real environment.", "reverse": true },
+        { "id": "INV3", "text": "I was completely captivated by the virtual world.", "reverse": false },
+        { "id": "INV4", "text": "How aware were you of the real world surroundings while navigating in the virtual world?", "reverse": true }
+      ],
+      "scoring": "Mean of items after reversing reverse-coded items. Range 0-6.",
+      "weight": 1.0
+    },
+    "REAL": {
+      "label": "Experienced Realism",
+      "description": "Subjective experience of realism in the virtual environment.",
+      "items": [
+        { "id": "REAL1", "text": "The virtual world seemed real to me.", "reverse": false },
+        { "id": "REAL2", "text": "How real did the virtual world seem to you?", "reverse": false },
+        { "id": "REAL3", "text": "The virtual environment did not seem realistic.", "reverse": true },
+        { "id": "REAL4", "text": "How much were you able to examine objects closely?", "reverse": false }
+      ],
+      "scoring": "Mean of items after reversing reverse-coded items. Range 0-6.",
+      "weight": 1.0
+    },
+    "G": {
+      "label": "General Presence (single item)",
+      "description": "Overall sense of being present - used as a global anchor.",
+      "items": [
+        { "id": "G1", "text": "How much did you feel like you were really there in the virtual environment?", "reverse": false }
+      ],
+      "scoring": "Single item, range 0-6. Often used as validity check against subscale scores.",
+      "weight": 1.0
+    }
+  },
+  "composite_score": {
+    "method": "Mean of SP, INV, and REAL subscale means (G excluded from composite).",
+    "formula": "IPQ_total = (mean(SP) + mean(INV) + mean(REAL)) / 3",
+    "range": "0-6"
+  },
+  "reverse_coding_procedure": "For reverse-coded items: reversed_score = max_scale - raw_score (i.e., 6 - raw)",
+  "reliability": {
+    "SP_alpha": 0.87,
+    "INV_alpha": 0.77,
+    "REAL_alpha": 0.79
+  },
+  "normative_data": {
+    "source": "igroup.org normative database",
+    "N_systems": "20+",
+    "typical_HMD_SP_mean": 3.8,
+    "typical_desktop_SP_mean": 2.9
+  },
+  "notes": [
+    "Validated across HMD, CAVE, and desktop VR systems.",
+    "SP subscale is the strongest predictor of behavioural presence measures.",
+    "G item correlates ~0.70 with SP; use for quick cross-check.",
+    "Normative data available at igroup.org for >20 VR systems.",
+    "Free to use for non-commercial research; cite Schubert et al. 2001."
+  ]
+}

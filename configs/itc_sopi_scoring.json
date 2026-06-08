@@ -1,0 +1,95 @@
+{
+  "instrument": "ITC Sense of Presence Inventory (ITC-SOPI)",
+  "version": "1.0",
+  "citation": "Lessiter, J., Freeman, J., Keogh, E., & Davidoff, J. (2001). A cross-media presence questionnaire: The ITC Sense of Presence Inventory. Presence: Teleoperators and Virtual Environments, 10(3), 282-297.",
+  "scale_type": "Likert",
+  "response_range": { "min": 1, "max": 5 },
+  "total_items": 44,
+  "subscales": {
+    "PPS": {
+      "label": "Physical Space",
+      "description": "Sense of being physically located in the mediated environment.",
+      "item_count": 15,
+      "sample_items": [
+        "I felt I was visiting the places in the presentation.",
+        "It seemed as though I actually took part in the action of the presentation.",
+        "I felt as though I was physically present in the environment shown.",
+        "The presentation made me feel as if I was somewhere else.",
+        "I felt I could have reached out and touched things in the presentation."
+      ],
+      "reverse_coded_count": 3,
+      "scoring": "Sum of item scores (after reversals); divide by item count for mean. Range 1-5.",
+      "higher_score_means": "Stronger sense of physical co-presence in virtual space."
+    },
+    "ENG": {
+      "label": "Engagement",
+      "description": "Degree of attention, involvement, and absorption in the VE.",
+      "item_count": 11,
+      "sample_items": [
+        "I found the presentation to be attention-grabbing.",
+        "I was so involved in the presentation that I lost track of time.",
+        "The presentation captured my attention.",
+        "I found myself wanting to interact with the environment.",
+        "The presentation was absorbing."
+      ],
+      "reverse_coded_count": 2,
+      "scoring": "Sum of item scores (after reversals); divide by item count for mean. Range 1-5.",
+      "higher_score_means": "Higher engagement and attentional absorption."
+    },
+    "ECO": {
+      "label": "Ecological Validity / Naturalness",
+      "description": "Perceived realism and naturalness of the virtual environment.",
+      "item_count": 10,
+      "sample_items": [
+        "The environment in the presentation seemed natural.",
+        "The way things moved in the presentation seemed natural.",
+        "Objects in the presentation looked real.",
+        "The sounds in the presentation were realistic.",
+        "The presentation seemed like a real place."
+      ],
+      "reverse_coded_count": 2,
+      "scoring": "Sum of item scores (after reversals); divide by item count for mean. Range 1-5.",
+      "higher_score_means": "Higher perceived ecological realism."
+    },
+    "NAU": {
+      "label": "Negative Effects (Nausea / Discomfort)",
+      "description": "Adverse physiological and psychological effects during exposure.",
+      "item_count": 8,
+      "sample_items": [
+        "I felt sick during the presentation.",
+        "I felt dizzy during the presentation.",
+        "I felt disoriented during the presentation.",
+        "I experienced discomfort during the presentation.",
+        "I felt nauseous during the presentation."
+      ],
+      "reverse_coded_count": 0,
+      "scoring": "Sum of item scores; divide by item count for mean. Range 1-5.",
+      "higher_score_means": "More negative/adverse effects (cybersickness proxy).",
+      "note": "Excluded from positive presence composite; reported separately."
+    }
+  },
+  "composite_score": {
+    "method": "Mean of PPS, ENG, and ECO subscale means. NAU reported separately.",
+    "formula": "ITC_SOPI_presence = (mean(PPS) + mean(ENG) + mean(ECO)) / 3",
+    "range": "1-5"
+  },
+  "reverse_coding_procedure": "For reverse-coded items: reversed_score = (max_scale + 1) - raw_score (i.e., 6 - raw for 1-5 scale)",
+  "reliability": {
+    "PPS_alpha": 0.90,
+    "ENG_alpha": 0.88,
+    "ECO_alpha": 0.85,
+    "NAU_alpha": 0.83
+  },
+  "cross_media_validation": {
+    "media_tested": ["Film", "Desktop VR", "HMD VR", "IMAX", "TV"],
+    "N": 235,
+    "notes": "Designed for cross-media comparison; validated across 5 media types."
+  },
+  "notes": [
+    "44 items is longer than IPQ; consider short-form (22-item) for repeated measures.",
+    "NAU subscale can serve as a cybersickness severity index.",
+    "ECO subscale uniquely captures perceptual realism vs. IPQ REAL subscale.",
+    "PPS most closely parallels IPQ SP subscale; ENG parallels INV.",
+    "Validated for cross-media use — suitable for comparing HMD vs. non-HMD conditions."
+  ]
+}
