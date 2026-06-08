@@ -1,0 +1,143 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Physiological Signal Processing Pipeline Config",
+  "description": "Reference configuration schema for EEG, GSR/EDA, HR, fNIRS, and eye-tracking signal pipelines used in VR presence/immersion research. Consolidates conventions from perception-immersion-framework and related literature.",
+  "version": "1.0",
+  "signals": {
+    "EEG": {
+      "description": "Electroencephalography — millisecond-resolution cortical activity",
+      "typical_hardware": ["Emotiv EPOC","OpenBCI Cyton","BrainProducts actiCHamp","Muse 2","g.tec g.USBamp"],
+      "sampling_rates_hz": [128, 256, 512, 1024],
+      "recommended_channels_for_CL": ["Fz","FCz","Cz","F3","F4","Pz"],
+      "preprocessing_pipeline": {
+        "step1": "Bandpass filter 0.5-45 Hz (removes DC drift and EMG artefacts)",
+        "step2": "Notch filter 50 Hz or 60 Hz (powerline)",
+        "step3": "ICA artefact rejection (eye blinks, muscle noise)",
+        "step4": "Re-reference to average or linked mastoids",
+        "step5": "Epoch segmentation (1-4 s windows, 50% overlap optional)",
+        "step6": "Row-wise z-score normalization per epoch"
+      },
+      "feature_extraction": {
+        "band_power": {
+          "delta": "0.5-4 Hz — drowsiness, fatigue",
+          "theta": "4-8 Hz — working memory load (increases with CL, esp. frontal midline)",
+          "alpha": "8-13 Hz — relaxed attention (DECREASES with CL)",
+          "beta": "13-30 Hz — active cognition, motor preparation",
+          "gamma": "30-45 Hz — high-level processing, feature binding"
+        },
+        "primary_CL_proxy": "alpha/theta power ratio (lower ratio = higher cognitive load)",
+        "presence_proxy": "frontal alpha asymmetry (approach/avoidance motivation)"
+      },
+      "vr_specific_challenges": [
+        "HMD movement artefacts (head rotation, locomotion)",
+        "Electrode placement under HMD foam",
+        "Wireless latency in multi-device setups",
+        "Short-epoch reliability for real-time feedback"
+      ]
+    },
+    "GSR_EDA": {
+      "description": "Galvanic Skin Response / Electrodermal Activity — sympathetic arousal marker",
+      "typical_hardware": ["Shimmer3 GSR+","Empatica E4","Biopac MP160","OpenSignals (BITalino)"],
+      "sampling_rates_hz": [32, 64, 128, 256],
+      "electrode_placement": "Non-dominant hand, index and middle finger (volar surface)",
+      "signal_components": {
+        "SCL": {
+          "name": "Skin Conductance Level (tonic)",
+          "description": "Slow-changing baseline; reflects general autonomic arousal",
+          "unit": "microsiemens (uS)",
+          "feature": "mean SCL per trial block"
+        },
+        "SCR": {
+          "name": "Skin Conductance Response (phasic)",
+          "description": "Fast transient peaks time-locked to stimuli; reflects event-locked arousal",
+          "unit": "microsiemens (uS)",
+          "features": ["SCR peak amplitude","SCR rise time","SCR latency","SCR count per minute"]
+        }
+      },
+      "preprocessing_pipeline": {
+        "step1": "Lowpass filter 5 Hz",
+        "step2": "Downsample to 32 Hz if needed",
+        "step3": "Decompose into tonic (SCL) and phasic (SCR) components using cvxEDA or Ledalab",
+        "step4": "Baseline correction (subtract mean of 2 s pre-stimulus window)"
+      },
+      "vr_presence_relevance": "SCR count and amplitude increase with emotional engagement and surprise events in VR; correlated with IPQ Involvement subscale in several studies"
+    },
+    "HR_HRV": {
+      "description": "Heart Rate and Heart Rate Variability — autonomic nervous system balance",
+      "typical_hardware": ["Polar H10 chest strap","Empatica E4 PPG","Biopac ECG","Garmin HRM"],
+      "signal_types": {
+        "ECG": {
+          "sampling_rate_hz": 1000,
+          "features": ["R-R interval (IBI)","HR (BPM)","SDNN","RMSSD","LF/HF ratio","pNN50"]
+        },
+        "PPG": {
+          "sampling_rate_hz": 64,
+          "note": "Lower SNR than ECG; susceptible to motion artefacts in VR locomotion tasks",
+          "features": ["HR (BPM)","IBI","RMSSD (approximated)"]
+        }
+      },
+      "preprocessing_pipeline": {
+        "step1": "Pan-Tompkins algorithm for R-peak detection (ECG)",
+        "step2": "Ectopic beat removal and interpolation",
+        "step3": "Compute IBI time series",
+        "step4": "HRV frequency domain analysis (LF: 0.04-0.15 Hz, HF: 0.15-0.4 Hz)"
+      },
+      "vr_presence_relevance": {
+        "HR": "HR increases with arousal and emotional engagement; decreases with relaxation/flow",
+        "RMSSD": "High RMSSD = parasympathetic dominance (calm, flow state); Low RMSSD = stress/high CL",
+        "LF_HF_ratio": "Higher ratio indicates sympathetic dominance (stress, high CL)"
+      }
+    },
+    "fNIRS": {
+      "description": "Functional Near-Infrared Spectroscopy — hemodynamic response in prefrontal cortex",
+      "typical_hardware": ["NIRx NIRSport2","Artinis OctaMon","Shimadzu LABNIRS","Kernel Flow"],
+      "sampling_rates_hz": [10, 25, 50],
+      "measured_signals": {
+        "HbO": "Oxygenated haemoglobin — increases with neural activation",
+        "HbR": "Deoxygenated haemoglobin — typically decreases with activation (inverse to HbO)"
+      },
+      "roi": "Prefrontal cortex (PFC) — BA9, BA46; primary region for working memory and executive function",
+      "preprocessing_pipeline": {
+        "step1": "Optical density conversion",
+        "step2": "Modified Beer-Lambert Law for HbO/HbR conversion",
+        "step3": "Motion artefact correction (spline interpolation or wavelet)",
+        "step4": "Bandpass 0.01-0.1 Hz (removes cardiac, respiratory artefacts)",
+        "step5": "Row-wise z-score normalization per participant"
+      },
+      "feature_extraction": ["Mean HbO per channel","HbO slope (trend)","Peak amplitude","HbO-HbR correlation"],
+      "vr_advantages_over_EEG": [
+        "Tolerant of movement artefacts — suitable for 6DOF VR",
+        "No conductive gel required",
+        "Compatible with HMD form factors",
+        "Better spatial resolution than EEG for PFC"
+      ]
+    },
+    "eye_tracking": {
+      "description": "Pupillometry and gaze metrics as cognitive/attentional proxies",
+      "typical_hardware": ["Tobii Pro Glasses 3","Pupil Labs Neon","SMI Eye Tracking Glasses","HTC Vive Pro Eye","Meta Quest Pro"],
+      "features": {
+        "pupil_dilation": {
+          "description": "Task-Evoked Pupillary Response (TEPR) — strong correlate of cognitive load",
+          "unit": "mm",
+          "note": "Must control for luminance changes in VR scene"
+        },
+        "fixation_duration": "Longer fixations = higher local processing demand",
+        "saccade_rate": "Fewer saccades = higher focused attention or cognitive load",
+        "blink_rate": "Decreased blink rate = higher engagement/attention",
+        "gaze_entropy": "Higher entropy = less focused visual attention"
+      },
+      "preprocessing": {
+        "step1": "Pupil diameter baseline correction (subtract mean of 200 ms pre-stimulus)",
+        "step2": "Interpolate blink artefacts",
+        "step3": "Smooth with moving average (window 50-100 ms)"
+      }
+    }
+  },
+  "multimodal_fusion": {
+    "PII_formula": "PII = 0.50 * Q_norm + 0.30 * P_norm + 0.20 * B_norm",
+    "Q_norm": "Normalized questionnaire score (IPQ/SUS mean scaled to [0,1])",
+    "P_norm": "Normalized physiological proxy (pupil dilation + GSR peaks)",
+    "B_norm": "Normalized behavioral metric (dwell time + interaction rate)",
+    "source": "zhub9006/perception-immersion-framework — pif/immersion_score.py"
+  }
+}
