@@ -1,0 +1,71 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Igroup Presence Questionnaire (IPQ)",
+  "description": "14-item self-report scale measuring sense of presence in virtual environments. Developed by Schubert, Friedmann & Regenbrecht (2001).",
+  "citation": "Schubert, T., Friedmann, F., & Regenbrecht, H. (2001). The experience of presence: Factor analytic insights. Presence, 10(3), 266-281.",
+  "scale_type": "Likert",
+  "response_format": "7-point bipolar scale (-3 to +3 or 1 to 7)",
+  "total_items": 14,
+  "reliability": { "cronbach_alpha": [0.85, 0.87] },
+  "subscales": {
+    "General_Presence": {
+      "item_count": 1,
+      "description": "Single global item: sense of being surrounded by the VE",
+      "items": [
+        { "id": "GP1", "text": "Somehow I felt that the virtual world surrounded me.", "reverse_coded": false }
+      ]
+    },
+    "Spatial_Presence": {
+      "item_count": 5,
+      "description": "Sense of physically being located inside the VE",
+      "items": [
+        { "id": "SP1", "text": "I felt like I was just perceiving pictures.", "reverse_coded": true },
+        { "id": "SP2", "text": "I had a sense of acting in the virtual space, rather than operating something from outside.", "reverse_coded": false },
+        { "id": "SP3", "text": "I felt present in the virtual space.", "reverse_coded": false },
+        { "id": "SP4", "text": "I did not feel present in the virtual space.", "reverse_coded": true },
+        { "id": "SP5", "text": "I felt like I was in the virtual space.", "reverse_coded": false }
+      ]
+    },
+    "Involvement": {
+      "item_count": 4,
+      "description": "Attentional engagement directed toward the VE; real-world unawareness",
+      "items": [
+        { "id": "INV1", "text": "I noticed the virtual environment through more than one sense.", "reverse_coded": false },
+        { "id": "INV2", "text": "I had the impression that the virtual environment was something I was part of.", "reverse_coded": false },
+        { "id": "INV3", "text": "I was not aware of my real environment.", "reverse_coded": false },
+        { "id": "INV4", "text": "I concentrated only on the virtual space.", "reverse_coded": false }
+      ]
+    },
+    "Realness": {
+      "item_count": 4,
+      "description": "Perceived authenticity and realism of the VE relative to the real world",
+      "items": [
+        { "id": "REAL1", "text": "The virtual world seemed more realistic to me than the real world.", "reverse_coded": false },
+        { "id": "REAL2", "text": "The virtual environment appeared real to me.", "reverse_coded": false },
+        { "id": "REAL3", "text": "The experience in the virtual environment felt consistent with my real world experience.", "reverse_coded": false },
+        { "id": "REAL4", "text": "My experience in the virtual environment was comparable to the real world.", "reverse_coded": false }
+      ]
+    }
+  },
+  "scoring": {
+    "method": "Mean of items per subscale after reverse-scoring marked items",
+    "reverse_score_items": ["SP1", "SP4"],
+    "subscale_scores": "Computed separately; no single composite total is standard",
+    "higher_score_means": "Greater presence / involvement / perceived realness",
+    "factor_structure": "Three second-order factors confirmed via CFA"
+  },
+  "administration": {
+    "timing": "Post-experience",
+    "duration_minutes": 3,
+    "languages_available": ["English", "German", "Italian", "Spanish", "Dutch", "French"],
+    "url": "http://www.igroup.org/pq/ipq/"
+  },
+  "intended_use": "Immersive VR, desktop VR, 3D games, text-based VEs",
+  "construct_measured": "Physical/spatial presence",
+  "known_limitations": [
+    "Post-experience only — not continuous",
+    "Subjective introspection required",
+    "Item overlap with SUS and PQ",
+    "Does not capture social presence or negative effects"
+  ]
+}
