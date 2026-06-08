@@ -1,0 +1,30 @@
+{
+  "scale": "Igroup Presence Questionnaire (IPQ)",
+  "citation": "Schubert, T., Friedmann, F., & Regenbrecht, H. (2001). The experience of presence: Factor analytic insights. Presence: Teleoperators and Virtual Environments, 10(3), 266-281.",
+  "source_repository": "https://github.com/Juanes1516/Biosignals_VR",
+  "source_file": "code/ipq_survey.py",
+  "source_url": "https://www.igroup.org/pq/ipq/items.php",
+  "n_items": 14,
+  "scale_range": [0, 6],
+  "scale_anchors": {
+    "min": 0,
+    "max": 6,
+    "description": "Bipolar anchors; 0 = left anchor, 6 = right anchor, 3 = midpoint"
+  },
+  "reliability_alpha": 0.87,
+  "reverse_scored_items": ["inv1", "inv2", "inv3", "inv4", "sp2", "sp3"],
+  "reverse_formula": "scored = 6 - raw",
+  "subscales": {
+    "G": {"name": "General Presence", "n_items": 1, "item_ids": ["g1"], "scoring": "single item score (0-6)"},
+    "SP": {"name": "Spatial Presence", "n_items": 5, "item_ids": ["sp1","sp2","sp3","sp4","sp5"], "scoring": "mean of scored items (0-6)"},
+    "INV": {"name": "Involvement", "n_items": 4, "item_ids": ["inv1","inv2","inv3","inv4"], "scoring": "mean of scored items (0-6)"},
+    "REAL": {"name": "Experienced Realism", "n_items": 4, "item_ids": ["real1","real2","real3","real4"], "scoring": "mean of scored items (0-6)"}
+  },
+  "notes": [
+    "Higher subscale scores (closer to 6) indicate stronger presence.",
+    "GP is a single global item and not averaged with subscales.",
+    "SP and INV together capture the attentional/spatial allocation aspect of presence.",
+    "REAL captures plausibility and perceptual fidelity of the virtual environment.",
+    "Validated across multiple VR platforms; widely used as gold-standard self-report measure."
+  ]
+}
